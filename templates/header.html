@@ -1,0 +1,55 @@
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light navbar-laravel" style="background-color: #4CCABD">
+        <div class="container">
+            <a class="navbar-brand text-dark" href="{% url "index" %}">⌘︎｜ALCPT Online Platform</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!--Navbar-->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        <button type="button" class="btn text-dark" data-toggle="modal" data-target="#ModalCenter">
+                            <i class="fa fa-user"></i>
+                        </button>
+
+                        <!-- Modal for functions menu -->
+                        <div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header text-center">
+                                        <h5 class="modal-title" id="ModalLongTitle">User: {{ request.user.reg_id }}</h5>
+                                    </div>
+
+                                    <div id="modal-menu">
+                                        <ul class="list-inline text-center">
+                                            <li class="p-3 border-bottom" style="cursor: pointer" onclick="alert('Function is developing. Stay tuned.🤪');">Profile</li>
+                                            <li class="p-3 border-bottom" style="cursor: pointer" onclick="alert('Function is developing. Stay tuned.🤪');">Profile Update</li>
+                                            <li class="p-3 border-bottom" style="cursor: pointer" onclick="alert('Function is developing. Stay tuned.🤪');">Email</li>
+                                            <li class="p-3 border-bottom" style="cursor: pointer" onclick="alert('Function is developing. Stay tuned.🤪');">Password Change</li>
+                                            <li class="p-3 border-bottom" style="cursor: pointer" onclick="alert('Function is developing. Stay tuned.🤪');">Real Exam Record</li>
+                                            <li class="p-3 border-bottom" style="cursor: pointer" onclick="alert('Function is developing. Stay tuned.🤪');">Report</li>
+                                            <li class="p-3" style="cursor: pointer" onclick="alert('Function is developing. Stay tuned.🤪');">About</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <a class="btn btn-light" href="{% url 'logout' %}" onclick="return confirm('Sure to logout?')">Logout</a>
+                                        <a class="btn btn-secondary" style="color: white" data-dismiss="modal">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="#signup">Sign up</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
