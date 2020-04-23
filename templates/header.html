@@ -1,3 +1,5 @@
+{% load web_filters %}
+
 <header>
     <nav class="navbar navbar-expand-lg navbar-light navbar-laravel" style="background-color: #4CCABD">
         <div class="container">
@@ -10,10 +12,11 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     {% if user.is_authenticated %}
+                        {% include 'privilege_navbar.html' %}
+
                         <button type="button" class="btn text-dark" data-toggle="modal" data-target="#ModalCenter">
                             <i class="fa fa-user"></i>
                         </button>
-
                         <!-- Modal for functions menu -->
                         <div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -40,6 +43,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="{% url 'login' %}">Login</a>

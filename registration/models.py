@@ -14,3 +14,6 @@ class User(AbstractUser):
     identity = models.PositiveIntegerField(default=Identity.Visitor.value[0])
     privilege = models.PositiveIntegerField(default=Privilege.Testee.value[0])
     update_time = models.DateTimeField(auto_now=True)
+
+    def has_permission(self, require_privilege):
+        return (self.privilege & require_privilege.value[0]) > 0
