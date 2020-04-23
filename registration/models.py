@@ -7,7 +7,6 @@ from registration.definition import Gender, Identity, Privilege
 
 
 class User(AbstractUser):
-    reg_id = models.CharField(primary_key=True, unique=True, max_length=50)
     photo = models.ImageField(upload_to='photos', null=True, blank=True)
     introduction = models.TextField(null=True, blank=True)
     email_is_verified = models.BooleanField(default=False)
