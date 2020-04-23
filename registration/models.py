@@ -17,3 +17,6 @@ class User(AbstractUser):
 
     def has_permission(self, require_privilege):
         return (self.privilege & require_privilege.value[0]) > 0
+
+    def is_student(self):
+        return True if self.identity == Identity.Student.value[0] else False

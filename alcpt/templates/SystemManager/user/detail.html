@@ -1,4 +1,171 @@
 {% extends 'base.html' %}
 
+{% load static %}
+{% load registration_filters %}
+
+{% block title %}User {{ user.username }}{% endblock %}
+
 {% block content %}
+    <div class="col-lg-4 mt-4">
+        <div class="card">
+            <div class="card-header">Photo & Introduction</div>
+            <div class="card-body">
+                {% if user.photo %}
+                    <img class="card-img-top" src="{{ user.photo.url }}" alt="{{ user.username }}">
+                {% else %}
+                    <img class="card-img-top" src="{% static 'image/penrose-triangle.png' %}" alt="{{ user.username }}">
+                {% endif %}
+            </div>
+            <div class="card-footer">
+                <p class="card-text">{{ user.introduction }}</p>
+            </div>
+        </div>
+    </div>
+
+    {% if user.is_student %}
+        <div class="col-lg-5 mt-4">
+            <div class="card">
+                <div class="card">
+                    <div class="card-header">Profile</div>
+                    <div class="card-body">
+                        <ul class="list-inline">
+                            <li class="border-bottom">
+                                <h4>Username</h4>
+                                {{ user.username }}
+                            </li>
+                            <li class="border-bottom">
+                                <h4>Name</h4>
+                                {{ user.get_full_name }}
+                            </li>
+                            <li class="border-bottom">
+                                <h4>Email&nbsp;{% if user.email_is_verified %}<i class="fa fa-check-circle" style="color: green"></i>{% endif %}</h4>
+                                {{ user.email }}
+                            </li>
+                            <li class="border-bottom">
+                                <h4>Gender</h4>
+                                {{ user.gender|readableGender }}
+                            </li>
+                            <li class="border-bottom">
+                                <h4>Identity</h4>
+                                {{ user.identity|readableIdentity }}
+                            </li>
+                            <li class="border-bottom">
+                                <h4>Privilege</h4>
+                                {% if user|has_permission:'SystemManager' %}
+                                    <span class="badge alert-danger">SystemManager</span>
+                                {% endif %}
+                                {% if user|has_permission:'TestManager' %}
+                                    <span class="badge alert-warning">TestManager</span>
+                                {% endif %}
+                                {% if user|has_permission:'TBManager' %}
+                                    <span class="badge alert-success">TBManager</span>
+                                {% endif %}
+                                {% if user|has_permission:'TBOperator' %}
+                                    <span class="badge alert-info">TBOperator</span>
+                                {% endif %}
+                                {% if user|has_permission:'Viewer' %}
+                                    <span class="badge alert-dark">Viewer</span>
+                                {% endif %}
+                                {% if user|has_permission:'Testee' %}
+                                    <span class="badge alert-light">Testee</span>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <p class="card-text text-muted">Last update - {{ user.update_time }}</p>
+                        <p class="card-text text-muted">Last login - {{ user.last_login }}</p>
+                        <p class="card-text text-muted">Date joined - {{ user.date_joined }}</p>
+                        <button type="button" class="btn btn-primary float-right" onclick="history.back()">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 mt-4">
+            <div class="card">
+                <div class="card-header">Student Profile</div>
+                <div class="card-body">
+                    <ul class="list-inline">
+                        <li class="border-bottom">
+                            <h4>Student ID</h4>
+                            {{ user.student.stu_id }}
+                        </li>
+                        <li class="border-bottom">
+                            <h4>Department</h4>
+                            {{ user.student.department }}
+                        </li>
+                        <li class="border-bottom">
+                            <h4>Squadron</h4>
+                            {{ user.student.squadron }}
+                        </li>
+                        <li class="border-bottom">
+                            <h4>Year Grade</h4>
+                            {{ user.student.year_grade }}
+                        </li>
+                        <li class="border-bottom">
+                            <h4>Status</h4>
+                            {{ user.student.status }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="col-lg-8 mt-4">
+            <div class="card">
+                <div class="card-header">Profile</div>
+                <div class="card-body">
+                    <ul class="list-inline">
+                        <li class="border-bottom">
+                            <h4>Username</h4>
+                            {{ user.username }}
+                        </li>
+                        <li class="border-bottom">
+                            <h4>Name</h4>
+                            {{ user.get_full_name }}
+                        </li>
+                        <li class="border-bottom">
+                            <h4>Email&nbsp;{% if user.email_is_verified %}<i class="fa fa-check-circle" style="color: green"></i>{% endif %}</h4>
+                            {{ user.email }}
+                        </li>
+                        <li class="border-bottom">
+                            <h4>Gender</h4>
+                            {{ user.gender|readableGender }}
+                        </li>
+                        <li class="border-bottom">
+                            <h4>Identity</h4>
+                            {{ user.identity|readableIdentity }}
+                        </li>
+                        <li class="border-bottom">
+                            <h4>Privilege</h4>
+                            {% if user|has_permission:'SystemManager' %}
+                                <span class="badge alert-danger">SystemManager</span>
+                            {% endif %}
+                            {% if user|has_permission:'TestManager' %}
+                                <span class="badge alert-warning">TestManager</span>
+                            {% endif %}
+                            {% if user|has_permission:'TBManager' %}
+                                <span class="badge alert-success">TBManager</span>
+                            {% endif %}
+                            {% if user|has_permission:'TBOperator' %}
+                                <span class="badge alert-info">TBOperator</span>
+                            {% endif %}
+                            {% if user|has_permission:'Viewer' %}
+                                <span class="badge alert-dark">Viewer</span>
+                            {% endif %}
+                            {% if user|has_permission:'Testee' %}
+                                <span class="badge alert-light">Testee</span>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <p class="card-text text-muted">Last update - {{ user.update_time }}</p>
+                    <p class="card-text text-muted">Last login - {{ user.last_login }}</p>
+                    <p class="card-text text-muted">Date joined - {{ user.date_joined }}</p>
+                    <button type="button" class="btn btn-primary float-right" onclick="history.back()">OK</button>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
