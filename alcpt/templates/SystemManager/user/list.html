@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% load registration_filters %}
+
+{% block title %}User List{% endblock %}
+
+{% block content %}
+    <div class="col-md-12 mt-4">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-mc-light-blue">
+                <thead class="thead-light text-center">
+                    <th style="width: 25%">Username</th>
+                    <th style="width: 15%">Name</th>
+                    <th style="width: 5%">Identity</th>
+                    <th style="width: 30%">Privilege
+                        <i class="fa fa-question-circle" style="cursor: pointer" data-toggle="modal" data-target="#promptContent"></i>
+                        <div class="modal fade text-left" id="promptContent" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header text-center">
+                                        <h5 class="modal-title fl" id="ModalLongTitle">Icon Tips</h5>
+                                    </div>
+                                    <div class="modal-body h6">
+                                        <ul>
+                                            <li><p><span class="badge alert-danger">SM</span>：System Manager</p></li>
+                                            <li><p><span class="badge alert-warning">TM</span>：Test Manager</p></li>
+                                            <li><p><span class="badge alert-success">TBM</span>：TB Manager</p></li>
+                                            <li><p><span class="badge alert-info">TBO</span>：TB Operator</p></li>
+                                            <li><p class="text-danger">TB：TestBank</p></li>
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th>
+                    <th style="width: 25%">Last login</th>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr style="cursor: pointer" onclick="window.location.href='{% url 'view_user_detail' user.id %}'">
+                        <td class="align-middle">{{ user.username }}</td>
+                        <td class="align-middle">{{ user.get_full_name }}</td>
+                        <td class="align-middle text-center">{{ user.identity|readableIdentity }}</td>
+                        <td class="align-middle">
+                            {% if user|has_permission:'SystemManager' %}
+                                <span class="badge alert-danger">SM</span>
+                            {% endif %}
+                            {% if user|has_permission:'TestManager' %}
+                                <span class="badge alert-warning">TM</span>
+                            {% endif %}
+                            {% if user|has_permission:'TBManager' %}
+                                <span class="badge alert-success">TBM</span>
+                            {% endif %}
+                            {% if user|has_permission:'TBOperator' %}
+                                <span class="badge alert-info">TBO</span>
+                            {% endif %}
+                            {% if user|has_permission:'Viewer' %}
+                                <span class="badge alert-dark">Viewer</span>
+                            {% endif %}
+                            {% if user|has_permission:'Testee' %}
+                                <span class="badge alert-light">Testee</span>
+                            {% endif %}
+                        </td>
+                        <td class="align-middle">{{ user.last_login }}</td>
+                    </tr>
+                {% empty %}
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

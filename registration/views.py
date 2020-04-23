@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView, CreateView
 
-from ALCPT_Online_Platform.settings import LOGOUT_REDIRECT_URL
+from ALCPT_Online_Platform.settings import LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL
 from registration.models import User
 from registration.forms import SignUpForm
 
@@ -24,6 +25,7 @@ class SignUpView(CreateView):
         return redirect('index')
 
 
+@login_required
 def logout(request):
     auth.logout(request)
     return redirect(LOGOUT_REDIRECT_URL)

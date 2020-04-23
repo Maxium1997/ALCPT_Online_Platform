@@ -1,0 +1,29 @@
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tag == 'success' %}
+            <div id="prompt">
+                <div class="alert alert-success" role="alert">
+                    <i class="fa fa-window-close" aria-hidden="true">{{ message }}</i>
+                </div>
+            </div>
+        {% elif message.tag == 'warning' %}
+            <div id="prompt">
+                <div class="alert alert-warning" role="alert">
+                    <i class="fa fa-window-close" aria-hidden="true">{{ message }}</i>
+                </div>
+            </div>
+        {% elif message.tag == 'error' %}
+            <div id="prompt">
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa fa-window-close" aria-hidden="true">{{ message }}</i>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+<script type="text/javascript">
+    setTimeout(function(){
+        $('#prompt').hide()
+    }, 5000)
+</script>

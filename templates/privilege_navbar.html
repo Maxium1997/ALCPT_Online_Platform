@@ -1,4 +1,4 @@
-{% load web_filters %}
+{% load registration_filters %}
 
 {% if request.user|has_permission:'SystemManager' %}
     <li class="nav-item dropdown">
@@ -6,7 +6,7 @@
             SystemManager
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#user_list">User List</a>
+            <a class="dropdown-item" href="{% url 'user_list' %}">User List</a>
             <a class="dropdown-item" href="#unit_list">Unit List</a>
             <a class="dropdown-item" href="#reportcategory_list">ReportCategory List</a>
         </div>
