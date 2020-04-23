@@ -3,6 +3,10 @@
 {% load static %}
 {% load registration_filters %}
 
+{% block sidebar %}
+    {% include 'sidebar/SystemManager.html' %}
+{% endblock %}
+
 {% block title %}User {{ user.username }}{% endblock %}
 
 {% block content %}
