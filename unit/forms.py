@@ -1,6 +1,6 @@
 from django import forms
 
-from unit.models import School
+from unit.models import School, College
 
 
 class SchoolCreateForm(forms.ModelForm):
@@ -22,3 +22,16 @@ class SchoolCreateForm(forms.ModelForm):
     class Meta:
         model = School
         fields = ['name', 'address', 'slug', 'phone', 'website']
+
+
+class CollegeCreateForm(forms.ModelForm):
+    school = forms.ModelChoiceField(required=True,
+                                    queryset=School.objects.all(),
+                                    widget=forms.Select(attrs={'class': 'form-control'}))
+    name = forms.CharField(required=True,
+                           max_length=150,
+                           widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = College
+        fields = ['school', 'name']

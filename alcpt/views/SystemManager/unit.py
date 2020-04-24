@@ -9,7 +9,7 @@ from django.template.defaultfilters import slugify
 
 from registration.definition import Privilege
 from unit.models import School, College, Department, Squadron
-from unit.forms import SchoolCreateForm
+from unit.forms import SchoolCreateForm, CollegeCreateForm
 
 
 @method_decorator(login_required, name='dispatch')
@@ -51,3 +51,23 @@ class SchoolCreate(SuccessMessageMixin, CreateView):
     def form_valid(self, form):
         form.save()
         return redirect(self.success_url)
+
+
+@method_decorator(login_required, name='dispatch')
+class CollegeCreate(CreateView):
+    model = College
+    template_name = 'SystemManager/unit/create_college.html'
+    form_class = CollegeCreateForm
+    context_object_name = 'college'
+
+    def dispatch(self, request, *args, **kwargs):
+        required_privilege = Privilege.SystemManager
+        if not request.user.has_permission(required_privilege):
+            raise PermissionDenied
+        return super(CollegeCreate, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        college = form.save(commit=False)
+        college.school = form.cleaned_data['school']
+        college.save()
+        return redirect('unit_list')
