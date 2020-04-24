@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% block title %}Unit List{% endblock %}
+
+{% block sidebar %}
+    {% include 'sidebar/SystemManager.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-12 mt-4">
+        <ul class="nav nav-tabs" id="newTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="department-tab" data-toggle="tab" href="#department" role="tab" aria-controls="department" aria-selected="true">Department</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="squadron-tab" data-toggle="tab" href="#squadron" role="tab" aria-controls="squadron" aria-selected="false">Squadron</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="college-tab" data-toggle="tab" href="#college" role="tab" aria-controls="college" aria-selected="false">College</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="school-tab" data-toggle="tab" href="#school" role="tab" aria-controls="school" aria-selected="false">School</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="tabContent">
+
+            <div class="tab-pane fade show active" id="department" role="tabpanel" aria-labelledby="department-tab">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <h2>Department List</h2>
+
+                            <div class="table-responsive-md">
+                                <table class="table table-bordered table-striped table-hover table-mc-light-blue">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-center" style="width: 10%">Serial</th>
+                                            <th class="text-center" style="width: 15%">School</th>
+                                            <th class="text-center" style="width: 15%">College</th>
+                                            <th class="text-center" style="width: 25%">Name</th>
+                                            <th class="text-center" style="width: 10%"><i class="fa fa-users"></i></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for department in departments %}
+                                            <tr style="cursor: pointer">
+                                                <td class="text-center" data-title="Serial">{{ department.id }}</td>
+                                                <td class="text-center" data-title="School">{{ department.college.school }}</td>
+                                                <td class="text-center" data-title="College">{{ department.college }}</td>
+                                                <td class="text-center" data-title="Name">{{ department.name }}</td>
+                                                <td class="text-center" data-title="People">{{ department.student_set.all.count }}</td>
+                                            </tr>
+                                        {% empty %}
+                                            <tr>
+                                                <td class="text-center" colspan="4">No department recently</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="squadron" role="tabpanel" aria-labelledby="squadron-tab">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <h2>Squadron List</h2>
+
+                            <div class="table-responsive-md">
+                                <table class="table table-bordered table-striped table-hover table-mc-light-blue">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <tr>
+                                                <th class="text-center" style="width: 10%">Serial</th>
+                                                <th class="text-center" style="width: 15%">School</th>
+                                                <th class="text-center" style="width: 15%">College</th>
+                                                <th class="text-center" style="width: 25%">Name</th>
+                                                <th class="text-center" style="width: 10%"><i class="fa fa-users"></i></th>
+                                            </tr>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for squadron in squadrons %}
+                                            <tr style="cursor: pointer">
+                                                <td class="text-center" data-title="Serial">{{ squadron.id }}</td>
+                                                <td class="text-center" data-title="School">{{ squadron.college.school }}</td>
+                                                <td class="text-center" data-title="College">{{ squadron.college }}</td>
+                                                <td class="text-center" data-title="Name">{{ squadron.name }}</td>
+                                                <td class="text-center" data-title="People">{{ squadron.student_set.all.count }}</td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td class="text-center" colspan="4">No squadron recently</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="college" role="tabpanel" aria-labelledby="college-tab">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <h2>College List</h2>
+
+                            <div class="table-responsive-md">
+                                <table class="table table-bordered table-striped table-hover table-mc-light-blue">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <tr>
+                                                <th class="text-center" style="width: 10%">Serial</th>
+                                                <th class="text-center" style="width: 27.5%">School</th>
+                                                <th class="text-center" style="width: 27.5%">Name</th>
+                                                <th class="text-center" style="width: 10%"><i class="fa fa-users"></i></th>
+                                            </tr>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for college in colleges %}
+                                            <tr style="cursor: pointer">
+                                                <td class="text-center" data-title="Serial">{{ college.id }}</td>
+                                                <td class="text-center" data-title="School">{{ college.school }}</td>
+                                                <td class="text-center" data-title="Name">{{ college.name }}</td>
+                                                <td class="text-center" data-title="People">{{ college.get_student_num }}</td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td class="text-center" colspan="4">No squadron recently</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="school" role="tabpanel" aria-labelledby="school-tab">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <h2>School List</h2>
+
+                            <div class="table-responsive-md">
+                                <table class="table table-bordered table-striped table-hover table-mc-light-blue">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <tr>
+                                                <th class="text-center" style="width: 10%">Serial</th>
+                                                <th class="text-center" style="width: 55%">Name</th>
+                                                <th class="text-center" style="width: 10%"><i class="fa fa-users"></i></th>
+                                            </tr>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for school in schools %}
+                                            <tr style="cursor: pointer">
+                                                <td class="text-center" data-title="Serial">{{ school.id }}</td>
+                                                <td class="text-center" data-title="Name">{{ school.name }}</td>
+                                                <td class="text-center" data-title="People">{{ school.get_student_num }}</td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td class="text-center" colspan="4">No squadron recently</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

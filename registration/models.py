@@ -1,7 +1,10 @@
+import time
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 from registration.definition import Gender, Identity, Privilege
+from unit.models import Department, Squadron
 
 # Create your models here.
 
@@ -20,3 +23,17 @@ class User(AbstractUser):
 
     def is_student(self):
         return True if self.identity == Identity.Student.value[0] else False
+
+
+class Student(models.Model):
+    stu_id = models.CharField(max_length=20, unique=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, null=True, on_delete=models.SET_NULL)
+    squadron = models.ForeignKey(Squadron, null=True, on_delete=models.SET_NULL)
+    year_grade = models.PositiveSmallIntegerField(default=time.localtime().tm_year - 1911)
+
+    def __str__(self):
+        return self.user.get_full_name()
+
+    def get_stu_id(self):
+        return self.stu_id
