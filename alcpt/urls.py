@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from alcpt.views.SystemManager.user import UserListView, UserDetailView
-from alcpt.views.SystemManager.unit import UnitListView
+from alcpt.views.SystemManager.unit import UnitListView, SchoolCreate
 
 urlpatterns = [
     path('SytemManager/', include([
@@ -12,6 +12,7 @@ urlpatterns = [
 
         path('unit/', include([
             path('list', UnitListView.as_view(), name='unit_list'),
+            path('new-school', SchoolCreate.as_view(), name='create_school'),
         ]))
     ])),
 ]

@@ -158,8 +158,10 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <tr>
-                                                <th class="text-center" style="width: 10%">Serial</th>
-                                                <th class="text-center" style="width: 55%">Name</th>
+                                                <th class="text-center" style="width: 5%">Serial</th>
+                                                <th class="text-center" style="width: 15%">Name</th>
+                                                <th class="text-center" style="width: 30%">Address</th>
+                                                <th class="text-center" style="width: 30%">Website</th>
                                                 <th class="text-center" style="width: 10%"><i class="fa fa-users"></i></th>
                                             </tr>
                                         </tr>
@@ -167,9 +169,11 @@
 
                                     <tbody>
                                         {% for school in schools %}
-                                            <tr style="cursor: pointer">
+                                            <tr>
                                                 <td class="text-center" data-title="Serial">{{ school.id }}</td>
                                                 <td class="text-center" data-title="Name">{{ school.name }}</td>
+                                                <td class="text-center" data-title="Address">{{ school.address }}</td>
+                                                <td class="text-center" data-title="Address"><a href="{{ school.website }}">{{ school.website }}</a></td>
                                                 <td class="text-center" data-title="People">{{ school.get_student_num }}</td>
                                             </tr>
                                             {% empty %}

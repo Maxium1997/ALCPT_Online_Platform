@@ -1,11 +1,15 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
+from django.template.defaultfilters import slugify
 
 from registration.definition import Privilege
 from unit.models import School, College, Department, Squadron
+from unit.forms import SchoolCreateForm
 
 
 @method_decorator(login_required, name='dispatch')
@@ -26,3 +30,24 @@ class UnitListView(ListView):
         context['departments'] = Department.objects.all()
         context['squadrons'] = Squadron.objects.all()
         return context
+
+
+@method_decorator(login_required, name='dispatch')
+class SchoolCreate(SuccessMessageMixin, CreateView):
+    model = School
+    template_name = 'SystemManager/unit/create_school.html'
+    form_class = SchoolCreateForm
+    context_object_name = 'school'
+    # Cannot show normally
+    success_message = "Create successfully."
+    success_url = reverse_lazy('unit_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        required_privilege = Privilege.SystemManager
+        if not request.user.has_permission(required_privilege):
+            raise PermissionDenied
+        return super(SchoolCreate, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.save()
+        return redirect(self.success_url)
