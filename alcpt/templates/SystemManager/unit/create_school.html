@@ -17,7 +17,26 @@
                         <form method="post">
                             {% csrf_token %}
 
-                            {{ form.as_p }}
+                            <p>
+                                <label for="{{ form.name.label }}">{{ form.name.label }}</label>
+                                {{ form.name }}
+                            </p>
+                            <p>
+                                <label for="{{ form.address.label }}">{{ form.address.label }}</label>
+                                {{ form.address }}
+                            </p>
+                            <p>
+                                <label for="{{ form.slug.label }}">{{ form.slug.label }}</label>
+                                {{ form.slug }}
+                            </p>
+                            <p>
+                                <label for="{{ form.phone.label }}">{{ form.phone.label }}</label>
+                                {{ form.phone }}
+                            </p>
+                            <p>
+                                <label for="{{ form.website.label }}">{{ form.website.label }}</label>
+                                {{ form.website }}
+                            </p>
 
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">Create</button>

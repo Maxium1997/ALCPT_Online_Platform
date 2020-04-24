@@ -9,7 +9,7 @@ from django.template.defaultfilters import slugify
 
 from registration.definition import Privilege
 from unit.models import School, College, Department, Squadron
-from unit.forms import SchoolCreateForm, CollegeCreateForm
+from unit.forms import SchoolCreateForm, CollegeCreateForm, DepartmentCreateForm, SquadronCreateForm
 
 
 @method_decorator(login_required, name='dispatch')
@@ -70,4 +70,44 @@ class CollegeCreate(CreateView):
         college = form.save(commit=False)
         college.school = form.cleaned_data['school']
         college.save()
+        return redirect('unit_list')
+
+
+@method_decorator(login_required, name='dispatch')
+class DepartmentCreate(CreateView):
+    model = Department
+    template_name = 'SystemManager/unit/create_department.html'
+    form_class = DepartmentCreateForm
+    context_object_name = 'department'
+
+    def dispatch(self, request, *args, **kwargs):
+        required_privilege = Privilege.SystemManager
+        if not request.user.has_permission(required_privilege):
+            raise PermissionDenied
+        return super(DepartmentCreate, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        department = form.save(commit=False)
+        department.college = form.cleaned_data['college']
+        department.save()
+        return redirect('unit_list')
+
+
+@method_decorator(login_required, name='dispatch')
+class SquadronCreate(CreateView):
+    model = Squadron
+    template_name = 'SystemManager/unit/create_squadron.html'
+    form_class = SquadronCreateForm
+    context_object_name = 'squadron'
+
+    def dispatch(self, request, *args, **kwargs):
+        required_privilege = Privilege.SystemManager
+        if not request.user.has_permission(required_privilege):
+            raise PermissionDenied
+        return super(SquadronCreate, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        squadron = form.save(commit=False)
+        squadron.college = form.cleaned_data['college']
+        squadron.save()
         return redirect('unit_list')

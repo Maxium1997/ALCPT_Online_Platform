@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}New College{% endblock %}
+{% block title %}New Department{% endblock %}
 
 {% block sidebar %}
     {% include 'sidebar/SystemManager.html' %}
@@ -11,15 +11,15 @@
         <div class="row justify-content-center">
             <div class="col-md-8 mt-4">
                 <div class="card">
-                    <div class="card-header">New college</div>
+                    <div class="card-header">New department</div>
 
                     <div class="card-body">
                         <form method="post">
                             {% csrf_token %}
 
                             <p>
-                                <label for="{{ form.school.label }}">{{ form.school.label }}</label>
-                                {{ form.school }}
+                                <label for="{{ form.college.label }}">{{ form.college.label }}</label>
+                                {{ form.college }}
                             </p>
                             <p>
                                 <label for="{{ form.name.label }}">{{ form.name.label }}</label>

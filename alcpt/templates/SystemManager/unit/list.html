@@ -48,7 +48,7 @@
                                             <tr style="cursor: pointer">
                                                 <td class="text-center" data-title="Serial">{{ department.id }}</td>
                                                 <td class="text-center" data-title="School">{{ department.college.school }}</td>
-                                                <td class="text-center" data-title="College">{{ department.college }}</td>
+                                                <td class="text-center" data-title="College">{{ department.college.name }}</td>
                                                 <td class="text-center" data-title="Name">{{ department.name }}</td>
                                                 <td class="text-center" data-title="People">{{ department.student_set.all.count }}</td>
                                             </tr>
@@ -90,7 +90,7 @@
                                             <tr style="cursor: pointer">
                                                 <td class="text-center" data-title="Serial">{{ squadron.id }}</td>
                                                 <td class="text-center" data-title="School">{{ squadron.college.school }}</td>
-                                                <td class="text-center" data-title="College">{{ squadron.college }}</td>
+                                                <td class="text-center" data-title="College">{{ squadron.college.name }}</td>
                                                 <td class="text-center" data-title="Name">{{ squadron.name }}</td>
                                                 <td class="text-center" data-title="People">{{ squadron.student_set.all.count }}</td>
                                             </tr>

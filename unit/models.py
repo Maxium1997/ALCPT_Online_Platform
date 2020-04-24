@@ -25,14 +25,14 @@ class School(models.Model):
 
 
 class College(models.Model):
-    name = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=150)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['id']
 
     def __str__(self):
-        return self.name
+        return "%s%s" % (self.school, self.name)
 
     def get_student_num(self):
         student_num = 0
@@ -42,22 +42,22 @@ class College(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=150)
     college = models.ForeignKey(College, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ('id',)
 
     def __str__(self):
-        return self.name
+        return "%s%s%s" % (self.college.school, self.college, self.name)
 
 
 class Squadron(models.Model):
-    name = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=150)
     college = models.ForeignKey(College, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ('id',)
 
     def __str__(self):
-        return self.name
+        return "%s%s%s" % (self.college.school, self.college, self.name)
