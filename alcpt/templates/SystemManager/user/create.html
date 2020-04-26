@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}New User{% endblock %}
+
+{% block sidebar %}
+    {% include 'sidebar/SystemManager.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form method="post">
+            <div class="row justify-content-center">
+                {% csrf_token %}
+                <div class="col-lg-6 mt-4">
+                    <div class="card">
+                        <div class="card-header">New User</div>
+
+                        <div class="card-body">
+                            <p>
+                                <label for="{{ form.username.label }}">{{ form.username.label }}</label>
+                                {{ form.username }}
+                            </p>
+                            <p>
+                                <label for="{{ form.first_name.label }}">{{ form.first_name.label }}</label>
+                                {{ form.first_name }}
+                            </p>
+                            <p>
+                                <label for="{{ form.last_name.label }}">{{ form.last_name.label }}</label>
+                                {{ form.last_name }}
+                            </p>
+                            <p>
+                                <label for="{{ form.gender.label }}">{{ form.gender.label }}</label>
+                                {{ form.gender }}
+                            </p>
+                            <p>
+                                <label for="{{ form.identity.label }}">{{ form.identity.label }}</label>
+                                {{ form.identity }}
+                            </p>
+                            <p>
+                                <label for="{{ form.privilege.label }}">{{ form.privilege.label }}</label>
+                                <div>
+                                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-gears align-middle"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdown-header">Privilege Setting</li>
+                                        {{ form.privilege }}
+                                    </ul>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mt-4">
+                    <div class="card">
+                        <div class="card-header">Student</div>
+
+                        <div class="card-body">
+                            <p>
+                                <label for="{{ form.stu_id.label }}">{{ form.stu_id.label }}</label>
+                                {{ form.stu_id }}
+                            </p>
+                            <p>
+                                <label for="{{ form.department.label }}">{{ form.department.label }}</label>
+                                {{ form.department }}
+                            </p>
+                            <p>
+                                <label for="{{ form.squadron.label }}">{{ form.squadron.label }}</label>
+                                {{ form.squadron }}
+                                <label for="help-text" style="color: red">{{ form.squadron.help_text }}</label>
+                            </p>
+                            <p>
+                                <label for="{{ form.year_grade.label }}">{{ form.year_grade.label }}</label>
+                                {{ form.year_grade }}
+                                <label for="help-text" style="color: red">{{ form.year_grade.help_text }}</label>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <button type="submit" class="btn btn-primary mt-2 w-100">Create</button>
+                    <button type="button" class="btn btn-secondary mt-2 w-100" onclick="history.back();">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        function is_student() {
+            var stuID = document.getElementById('stu_id');
+            var department = document.getElementById('department');
+            var squadron = document.getElementById('squadron');
+            var year_grade = document.getElementById('year_grade');
+            var identity = document.getElementById('identity');
+
+            if (identity.value === '2') {
+                stuID.disabled = false;
+                department.disabled = false;
+                squadron.disabled = false;
+                year_grade.disabled = false;
+            }
+            else {
+                stuID.disabled = true;
+                stuID.value = '';
+                department.disabled = true;
+                department.value = '';
+                squadron.disabled = true;
+                squadron.value = '';
+                year_grade.disabled = true;
+                year_grade.value = '';
+            }
+        }
+    </script>
+{% endblock %}

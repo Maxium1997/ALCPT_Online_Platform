@@ -9,6 +9,7 @@ class School(models.Model):
     slug = models.SlugField(max_length=150, unique=True)
     phone = models.CharField(max_length=15, unique=True, null=True, blank=True)
     website = models.URLField(unique=True, null=True, blank=True)
+    is_military_school = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['id']
@@ -46,10 +47,10 @@ class Department(models.Model):
     college = models.ForeignKey(College, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ('id',)
+        ordering = ('name',)
 
     def __str__(self):
-        return "%s%s%s" % (self.college.school, self.college, self.name)
+        return "%s%s%s" % (self.college.school.name, self.college.name, self.name)
 
 
 class Squadron(models.Model):
@@ -57,7 +58,7 @@ class Squadron(models.Model):
     college = models.ForeignKey(College, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ('id',)
+        ordering = ('college',)
 
     def __str__(self):
-        return "%s%s%s" % (self.college.school, self.college, self.name)
+        return "%s%s%s" % (self.college.school.name, self.college.name, self.name)
