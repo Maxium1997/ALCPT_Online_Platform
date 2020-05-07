@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import auth, messages
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, DetailView, TemplateView, CreateView
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView
 from django.core.exceptions import PermissionDenied
 
 from ALCPT_Online_Platform.settings import LOGOUT_REDIRECT_URL
@@ -64,3 +64,11 @@ class UserDetailView(DetailView):
         if not request.user.has_permission(required_privilege):
             raise PermissionDenied
         return super(UserDetailView, self).dispatch(request, *args, **kwargs)
+
+
+@login_required
+def profile(request):
+    context = {'user': request.user,
+               'privileges': Privilege.__members__}
+
+    return render(request, 'account/profile.html', context)

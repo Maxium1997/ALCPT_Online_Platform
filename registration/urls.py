@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.contrib.auth.views import LoginView
 
 from registration.views import IndexView, SignUpView
-from registration.views import logout
+from registration.views import logout, profile
 
 
 urlpatterns = [
@@ -13,5 +13,6 @@ urlpatterns = [
 
     path('accounts/', include([
         path('signup', SignUpView.as_view(), name='sign_up'),
-    ]))
+        path('profile', profile, name='profile'),
+    ])),
 ]
