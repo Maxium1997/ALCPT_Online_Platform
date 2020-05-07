@@ -9,7 +9,7 @@ class Gender(Enum):
 
 
 class Identity(Enum):
-    Visitor = (1, 'Visitor')
+    Visitor = (1, 'User')
     Student = (2, 'Student')
     Teacher = (3, 'Teacher')
 

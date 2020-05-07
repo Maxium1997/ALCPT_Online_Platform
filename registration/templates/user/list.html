@@ -11,7 +11,7 @@
 {% block content %}
     <div class="col-md-12 mt-4">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover table-mc-light-blue">
+            <table class="table table-striped table-hover table-mc-light-blue">
                 <thead class="thead-light text-center">
                     <th style="width: 20%">Username</th>
                     <th style="width: 14%">Name</th>
@@ -44,7 +44,7 @@
                 </thead>
                 <tbody>
                 {% for user in users %}
-                    <tr style="cursor: pointer" onclick="window.location.href='{% url 'view_user_detail' user.id %}'">
+                    <tr>
                         <td class="align-middle">{{ user.username }}</td>
                         <td class="align-middle">{{ user.get_full_name }}</td>
                         <td class="align-middle text-center">{{ user.identity|readableIdentity }}</td>
@@ -68,7 +68,11 @@
                                 <span class="badge alert-light">Testee</span>
                             {% endif %}
                         </td>
-                        <td class="align-middle">{{ user.last_login }}</td>
+                        <td class="align-middle">
+                            <span id="last-login-label" onclick="window.location.href='#user-update'">{{ user.last_login }}</span>
+                            <span id="user-detail-icon" onclick="window.location.href='{% url 'view_user_detail' user.id %}'"><i class="fa fa-exclamation-circle float-right ml-2"></i></span>
+                            <span id="user-edit-icon"><i class="fa fa-pencil-square-o float-right ml-2"></i></span>
+                        </td>
                     </tr>
                 {% empty %}
 
@@ -77,4 +81,29 @@
             </table>
         </div>
     </div>
+
+    <style type="text/css">
+        #last-login-label{
+            display: inline;
+        }
+        tr:hover #last-login-label{
+            display: none;
+        }
+        #user-edit-icon{
+            display: none;
+        }
+        tr:hover #user-edit-icon{
+            font-size: 20px;
+            display: inline;
+            cursor: pointer;
+        }
+        #user-detail-icon{
+            display: none;
+        }
+        tr:hover #user-detail-icon{
+            font-size: 18px;
+            display: inline;
+            cursor: pointer;
+        }
+    </style>
 {% endblock %}

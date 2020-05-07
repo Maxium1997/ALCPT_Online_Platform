@@ -18,7 +18,7 @@ class SchoolCreateForm(forms.ModelForm):
                             widget=forms.TextInput(attrs={'class': 'form-control'}))
     website = forms.URLField(required=True,
                              widget=forms.TextInput(attrs={'class': 'form-control'}))
-    is_military_school = forms.BooleanField(required=True)
+    is_military_school = forms.BooleanField(required=False)
 
     class Meta:
         model = School
