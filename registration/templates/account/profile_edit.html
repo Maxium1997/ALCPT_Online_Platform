@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load registration_filters %}
+
+{% block sidebar %}
+    {% include 'registration_sidebar/user.html' %}
+{% endblock %}
+
+{% block title %}User Edit{% endblock %}
+
+{% block content %}
+    <div class="col-lg-4 mt-4 text-center">
+        {% if user.photo %}
+            <img class="card-img-top" src="{{ user.photo.url }}" alt="{{ user.username }}">
+        {% else %}
+            <img class="card-img-top" src="{% static 'image/penrose-triangle.png' %}" alt="{{ user.username }}">
+        {% endif %}
+        <a href="#photo-change">Change my photo</a>
+    </div>
+
+    <div class="col-lg-8 mt-4">
+        <form method="post">
+            {% csrf_token %}
+            <div class="card">
+                <div class="card-header">Profile Edit</div>
+                <div class="card-body">
+                    <ul class="list-inline">
+                        <li>
+                            <h5>Username</h5>
+                            {{ form.username }}
+                        </li>
+                        <li>
+                            <h5>Name</h5>
+                            {{ form.first_name }}{{ form.last_name }}
+                        </li>
+                        <li>
+                            <h5>Email&nbsp;{% if user.email_is_verified %}<i class="fa fa-check-circle" style="color: green"></i>{% endif %}</h5>
+                            {{ user.email }}
+                        </li>
+                        <li>
+                            <h5>Gender</h5>
+                            {{ form.gender }}
+                        </li>
+                        <li>
+                            <h5>Identity</h5>
+                            {{ form.identity }}
+                        </li>
+                        <li>
+                            <h5>Introduction</h5>
+                            {{ form.introduction }}
+                        </li>
+                        <li>
+                            <h5>Privilege</h5>
+                            {% if user|has_permission:'SystemManager' %}
+                                <span class="badge alert-danger">SystemManager</span>
+                            {% endif %}
+                            {% if user|has_permission:'TestManager' %}
+                                <span class="badge alert-warning">TestManager</span>
+                            {% endif %}
+                            {% if user|has_permission:'TBManager' %}
+                                <span class="badge alert-success">TBManager</span>
+                            {% endif %}
+                            {% if user|has_permission:'TBOperator' %}
+                                <span class="badge alert-info">TBOperator</span>
+                            {% endif %}
+                            {% if user|has_permission:'Viewer' %}
+                                <span class="badge alert-dark">Viewer</span>
+                            {% endif %}
+                            {% if user|has_permission:'Testee' %}
+                                <span class="badge alert-light">Testee</span>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer text-center">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

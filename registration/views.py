@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import auth, messages
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -7,7 +7,7 @@ from django.core.exceptions import PermissionDenied
 
 from ALCPT_Online_Platform.settings import LOGOUT_REDIRECT_URL
 from registration.models import User
-from registration.forms import SignUpForm
+from registration.forms import SignUpForm, ProfileEditForm
 from registration.definition import Privilege
 
 # Create your views here.
@@ -72,3 +72,14 @@ def profile(request):
                'privileges': Privilege.__members__}
 
     return render(request, 'account/profile.html', context)
+
+
+@method_decorator(login_required, name='dispatch')
+class ProfileEditView(UpdateView):
+    model = User
+    template_name = 'account/profile_edit.html'
+    form_class = ProfileEditForm
+    success_url = 'profile'
+
+    def get_object(self, queryset=None):
+        return User.objects.get(pk=self.request.user.id)
