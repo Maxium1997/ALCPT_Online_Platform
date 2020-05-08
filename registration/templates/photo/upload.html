@@ -12,9 +12,9 @@
 {% block content %}
     <div class="col-lg-4 mt-4">
         {% if user.photo %}
-            <img class="card-img-top rounded-circle" src="{{ user.photo.url }}" alt="{{ user.username }}" width=45%" height="60%">
+            <img class="card-img-top rounded-circle" src="{{ user.photo.url }}" alt="{{ user.username }}" width=200" height="300">
         {% else %}
-            <img class="card-img-top rounded-circle" src="{% static 'image/penrose-triangle.jpg' %}" alt="{{ user.username }}" width=45%" height="60%">
+            <img class="card-img-top rounded-circle" src="{% static 'image/penrose-triangle.jpg' %}" alt="{{ user.username }}" width=200" height="300">
         {% endif %}
         <form enctype="multipart/form-data" method="post">
             {% csrf_token %}

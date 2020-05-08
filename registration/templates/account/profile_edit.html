@@ -12,9 +12,9 @@
 {% block content %}
     <div class="col-lg-4 mt-4 text-center">
         {% if user.photo %}
-            <img class="card-img-top rounded-circle" src="{{ user.photo.url }}" alt="{{ user.username }}" width=45%" height="45%">
+            <img class="card-img-top rounded-circle" src="{{ user.photo.url }}" alt="{{ user.username }}" width=200" height="300">
         {% else %}
-            <img class="card-img-top rounded-circle" src="{% static 'image/penrose-triangle.jpg' %}" alt="{{ user.username }}" width=45%" height="45%">
+            <img class="card-img-top rounded-circle" src="{% static 'image/penrose-triangle.jpg' %}" alt="{{ user.username }}" width=200" height="300">
         {% endif %}
         <a href="#change-my-photo" data-toggle="modal" data-target="#ModalPhotoChange">
             Change my photo
@@ -29,8 +29,8 @@
 
                     <div id="modal-menu">
                         <ul class="list-inline text-center">
-                            <li class="p-3 border-bottom" style="cursor: pointer" onclick="window.location.href='{% url 'photo_upload' %}'">Upload Photo</li>
-                            <li class="p-3 border-bottom" style="cursor: pointer" onclick="window.location.href='#current_photo_delete'">Delete Current Photo</li>
+                            <li class="p-3 border-bottom" style="cursor: pointer; color: steelblue" onclick="window.location.href='{% url 'photo_upload' %}'">Upload Photo</li>
+                            <li class="p-3 border-bottom" style="cursor: pointer; color: indianred" onclick="window.location.href='#current_photo_delete'">Delete Current Photo</li>
                         </ul>
                     </div>
                     <div id="modal-footer">
