@@ -11,19 +11,12 @@
 
 {% block content %}
     <div class="col-lg-4 mt-4">
-        <div class="card">
-            <div class="card-header">Photo & Introduction</div>
-            <div class="card-body">
-                {% if user.photo %}
-                    <img class="card-img-top" src="{{ user.photo.url }}" alt="{{ user.username }}">
-                {% else %}
-                    <img class="card-img-top" src="{% static 'image/penrose-triangle.png' %}" alt="{{ user.username }}">
-                {% endif %}
-            </div>
-            <div class="card-footer">
-                <p class="card-text">{{ user.introduction|linebreaks }}</p>
-            </div>
-        </div>
+        {% if user.photo %}
+            <img class="card-img-top rounded-circle" src="{{ user.photo.url }}" alt="{{ user.username }}">
+        {% else %}
+            <img class="card-img-top rounded-circle" src="{% static 'image/penrose-triangle.jpg' %}" alt="Unload">
+        {% endif %}
+        <p class="card-text">{{ user.introduction|linebreaks }}</p>
     </div>
 
     {% if user.is_student %}

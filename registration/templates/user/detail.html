@@ -17,7 +17,7 @@
                 {% if user.photo %}
                     <img class="card-img-top" src="{{ user.photo.url }}" alt="{{ user.username }}">
                 {% else %}
-                    <img class="card-img-top" src="{% static 'image/penrose-triangle.png' %}" alt="{{ user.username }}">
+                    <img class="card-img-top" src="{% static 'image/penrose-triangle.jpg' %}" alt="{{ user.username }}">
                 {% endif %}
             </div>
             <div class="card-footer">
