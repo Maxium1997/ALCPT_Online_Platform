@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib import auth, messages
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,7 @@ from ALCPT_Online_Platform.settings import LOGOUT_REDIRECT_URL
 from registration.models import User
 from registration.forms import SignUpForm, ProfileEditForm
 from registration.definition import Privilege
+from registration.file import user_photo_storage
 
 # Create your views here.
 
@@ -83,3 +84,17 @@ class ProfileEditView(UpdateView):
 
     def get_object(self, queryset=None):
         return User.objects.get(pk=self.request.user.id)
+
+
+@login_required
+def photo_upload(request):
+    user = request.user
+
+    if request.method == 'POST':
+        photo = request.FILES.get('photo_file')
+        user_photo_storage(user=user, photo=photo)
+
+        return redirect('profile')
+    else:
+        context = {'user': user}
+        return render(request, 'photo/upload.html', context)

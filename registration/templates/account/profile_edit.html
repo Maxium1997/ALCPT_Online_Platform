@@ -12,11 +12,37 @@
 {% block content %}
     <div class="col-lg-4 mt-4 text-center">
         {% if user.photo %}
-            <img class="card-img-top rounded-circle" src="{{ user.photo.url }}" alt="{{ user.username }}">
+            <img class="card-img-top rounded-circle" src="{{ user.photo.url }}" alt="{{ user.username }}" width=45%" height="45%">
         {% else %}
-            <img class="card-img-top rounded-circle" src="{% static 'image/penrose-triangle.jpg' %}" alt="{{ user.username }}">
+            <img class="card-img-top rounded-circle" src="{% static 'image/penrose-triangle.jpg' %}" alt="{{ user.username }}" width=45%" height="45%">
         {% endif %}
-        <a href="#photo-change">Change my photo</a>
+        <a href="#change-my-photo" data-toggle="modal" data-target="#ModalPhotoChange">
+            Change my photo
+        </a>
+        <!-- Modal for functions menu -->
+        <div class="modal fade" id="ModalPhotoChange" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h5 class="modal-title" id="ModalLongTitle">Photo Change</h5>
+                    </div>
+
+                    <div id="modal-menu">
+                        <ul class="list-inline text-center">
+                            <li class="p-3 border-bottom" style="cursor: pointer" onclick="window.location.href='{% url 'photo_upload' %}'">Upload Photo</li>
+                            <li class="p-3 border-bottom" style="cursor: pointer" onclick="window.location.href='#current_photo_delete'">Delete Current Photo</li>
+                        </ul>
+                    </div>
+                    <div id="modal-footer">
+                        <ul class="list-inline text-center">
+                            <li>
+                                <a class="btn btn-secondary text-white" data-dismiss="modal">Cancel</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="col-lg-8 mt-4">

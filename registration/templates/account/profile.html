@@ -12,9 +12,9 @@
 {% block content %}
     <div class="col-lg-4 mt-4">
         {% if user.photo %}
-            <img class="card-img-top rounded-circle" src="{{ user.photo.url }}" alt="{{ user.username }}">
+            <img class="card-img-top rounded-circle" src="{{ user.photo.url }}" alt="{{ user.username }}" width=45%" height="45%">
         {% else %}
-            <img class="card-img-top rounded-circle" src="{% static 'image/penrose-triangle.jpg' %}" alt="Unload">
+            <img class="card-img-top rounded-circle" src="{% static 'image/penrose-triangle.jpg' %}" alt="Unload" width=45%" height="45%">
         {% endif %}
         <p class="card-text">{{ user.introduction|linebreaks }}</p>
     </div>

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load registration_filters %}
+
+{% block sidebar %}
+    {% include 'registration_sidebar/user.html' %}
+{% endblock %}
+
+{% block title %}Photo Upload{% endblock %}
+
+{% block content %}
+    <div class="col-lg-4 mt-4">
+        {% if user.photo %}
+            <img class="card-img-top rounded-circle" src="{{ user.photo.url }}" alt="{{ user.username }}" width=45%" height="60%">
+        {% else %}
+            <img class="card-img-top rounded-circle" src="{% static 'image/penrose-triangle.jpg' %}" alt="{{ user.username }}" width=45%" height="60%">
+        {% endif %}
+        <form enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="photo_file" name="photo_file" accept="image/*">
+                    <label class="custom-file-label" for="photo_file">Select image file</label>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </div>
+            <script>
+                // to change the label, the selected file name will display
+                $(".custom-file-input").on("change", function() {
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                });
+            </script>
+        </form>
+    </div>
+{% endblock %}
