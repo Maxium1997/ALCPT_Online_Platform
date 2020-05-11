@@ -6,4 +6,5 @@ def user_photo_storage(user: User, photo):
 
 
 def user_photo_remove(user: User):
-    user.photo.delete(save=True)
+    user.photo.delete()
+    user.save()

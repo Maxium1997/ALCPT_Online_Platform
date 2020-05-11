@@ -10,21 +10,24 @@
 {% block title %}User {{ user.username }}{% endblock %}
 
 {% block content %}
-    <div class="col-lg-4 mt-4">
-        <div class="card">
-            <div class="card-header">Photo & Introduction</div>
-            <div class="card-body">
-                {% if user.photo %}
-                    <img class="card-img-top" src="{{ user.photo.url }}" alt="{{ user.username }}">
-                {% else %}
-                    <img class="card-img-top" src="{% static 'image/penrose-triangle.jpg' %}" alt="{{ user.username }}">
-                {% endif %}
-            </div>
-            <div class="card-footer">
-                <p class="card-text">{{ user.introduction|linebreaks }}</p>
-            </div>
+    <div id="user_photo" class="col-lg-4 mt-4 text-center">
+        {% if user.photo %}
+            <img class="card-img-top" src="{{ user.photo.url }}" alt="{{ user.username }}">
+        {% else %}
+            <img class="card-img-top" src="{% static 'image/penrose-triangle.jpg' %}" alt="Unload">
+        {% endif %}
+        <div class="text-left">
+            <p class="card-text">{{ user.introduction|linebreaks }}</p>
         </div>
     </div>
+    <style type="text/css">
+        #user_photo img{
+            width: auto;
+            height: auto;
+            max-width: 60%;
+            max-height: 60%;
+        }
+    </style>
 
     {% if user.is_student %}
         <div class="col-lg-5 mt-4">

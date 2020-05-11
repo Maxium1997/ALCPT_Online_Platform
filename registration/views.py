@@ -6,10 +6,10 @@ from django.views.generic import ListView, DetailView, TemplateView, CreateView,
 from django.core.exceptions import PermissionDenied
 
 from ALCPT_Online_Platform.settings import LOGOUT_REDIRECT_URL
-from registration.models import User
+from registration.models import User, Student
 from registration.forms import SignUpForm, ProfileEditForm
-from registration.definition import Privilege
-from registration.file import user_photo_storage
+from registration.definition import Privilege, Identity
+from registration.file import user_photo_storage, user_photo_remove
 
 # Create your views here.
 
@@ -82,6 +82,19 @@ class ProfileEditView(UpdateView):
     form_class = ProfileEditForm
     success_url = 'profile'
 
+    def form_valid(self, form):
+        # the left side 'form' means 'User' object
+        form = form.save(commit=False)
+        # This statement seems doing nothing
+        if form.identity == Identity.Student.value[0]:
+            student = Student.objects.create(user=self.request.user)
+            student.save()
+        else:
+            student = Student.objects.get(user=form)
+            student.delete()
+        form.save()
+        return redirect('profile')
+
     def get_object(self, queryset=None):
         return User.objects.get(pk=self.request.user.id)
 
@@ -91,10 +104,19 @@ def photo_upload(request):
     user = request.user
 
     if request.method == 'POST':
-        photo = request.FILES.get('photo_file')
-        user_photo_storage(user=user, photo=photo)
-
-        return redirect('profile')
+        try:
+            photo = request.FILES.get('photo_file')
+            user_photo_storage(user=user, photo=photo)
+        except AttributeError:
+            pass
+        return redirect('profile_edit')
     else:
         context = {'user': user}
-        return render(request, 'photo/upload.html', context)
+        return render(request, 'account/profile_edit.html', context)
+
+
+@login_required
+def current_photo_delete(request):
+    user = request.user
+    user_photo_remove(user)
+    return redirect('profile_edit')

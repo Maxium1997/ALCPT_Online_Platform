@@ -2,6 +2,11 @@
     <div class="card my-4 text-center">
         <a href="{% url 'profile' %}" class="card-header">Profile</a>
     </div>
+    {% if request.user.student %}
+    <div class="card my-4 text-center">
+        <a href="#student-profile" class="card-header">Student Profile</a>
+    </div>
+    {% endif %}
     <div class="card my-4 text-center">
         <a href="{% url 'profile_edit' %}" class="card-header">Profile Edit</a>
     </div>

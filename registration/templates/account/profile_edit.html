@@ -10,15 +10,16 @@
 {% block title %}User Edit{% endblock %}
 
 {% block content %}
-    <div class="col-lg-4 mt-4 text-center">
+    <div id="user_photo" class="col-lg-4 mt-4 text-center">
         {% if user.photo %}
-            <img class="card-img-top rounded-circle" src="{{ user.photo.url }}" alt="{{ user.username }}" width=200" height="300">
+            <img class="card-img-top" src="{{ user.photo.url }}" alt="{{ user.username }}">
         {% else %}
-            <img class="card-img-top rounded-circle" src="{% static 'image/penrose-triangle.jpg' %}" alt="{{ user.username }}" width=200" height="300">
+            <img class="card-img-top" src="{% static 'image/penrose-triangle.jpg' %}" alt="Unload">
         {% endif %}
-        <a href="#change-my-photo" data-toggle="modal" data-target="#ModalPhotoChange">
-            Change my photo
-        </a>
+
+        <div>
+            <a href="#change-my-photo" data-toggle="modal" data-target="#ModalPhotoChange">Change my photo</a>
+        </div>
         <!-- Modal for functions menu -->
         <div class="modal fade" id="ModalPhotoChange" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -29,8 +30,50 @@
 
                     <div id="modal-menu">
                         <ul class="list-inline text-center">
-                            <li class="p-3 border-bottom" style="cursor: pointer; color: steelblue" onclick="window.location.href='{% url 'photo_upload' %}'">Upload Photo</li>
-                            <li class="p-3 border-bottom" style="cursor: pointer; color: indianred" onclick="window.location.href='#current_photo_delete'">Delete Current Photo</li>
+                            <li class="p-3 border-bottom" style="cursor: pointer; color: steelblue"data-toggle="modal" data-target="#ModalPhotoUpload">Upload Photo</li>
+                            <div class="modal fade" id="ModalPhotoUpload" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header text-center">
+                                            <h5 class="modal-title" id="ModalLongTitle">Photo Change</h5>
+                                        </div>
+
+                                        <div id="modal-menu">
+                                            <div id="#user_photo">
+                                                {% if user.photo %}
+                                                    <img class="card-img-top" src="{{ user.photo.url }}" alt="{{ user.username }}">
+                                                {% else %}
+                                                    <img class="card-img-top" src="{% static 'image/penrose-triangle.jpg' %}" alt="Unload">
+                                                {% endif %}
+                                                <form action="{% url 'photo_upload' %}" enctype="multipart/form-data" method="post">
+                                                    {% csrf_token %}
+                                                    <div class="input-group">
+                                                        <div class="custom-file">
+                                                            <input type="file" class="custom-file-input" id="photo_file" name="photo_file" accept="image/*">
+                                                            <label class="custom-file-label" for="photo_file">Select image file</label>
+                                                        </div>
+                                                        <div>
+                                                            <button type="submit" class="btn btn-primary">Upload</button>
+                                                        </div>
+                                                    </div>
+                                                    <script>
+                                                        // to change the label, the selected file name will display
+                                                        $(".custom-file-input").on("change", function() {
+                                                            var fileName = $(this).val().split("\\").pop();
+                                                            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                                                        });
+                                                    </script>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <a class="btn btn-secondary" style="color: white" data-dismiss="modal">Cancel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <li class="p-3 border-bottom" style="cursor: pointer; color: indianred" onclick="window.location.href='{% url 'current_photo_delete' %}'">Delete Current Photo</li>
                         </ul>
                     </div>
                     <div id="modal-footer">
@@ -43,7 +86,19 @@
                 </div>
             </div>
         </div>
+
+        <div class="text-left">
+            <p class="card-text">{{ user.introduction|linebreaks }}</p>
+        </div>
     </div>
+    <style type="text/css">
+        #user_photo img{
+            width: auto;
+            height: auto;
+            max-width: 60%;
+            max-height: 60%;
+        }
+    </style>
 
     <div class="col-lg-8 mt-4">
         <form method="post">
