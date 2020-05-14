@@ -45,7 +45,7 @@
 
                                     <tbody>
                                         {% for department in departments %}
-                                            <tr style="cursor: pointer">
+                                            <tr>
                                                 <td class="text-center" data-title="Serial">{{ department.id }}</td>
                                                 <td class="text-center" data-title="School">{{ department.college.school }}</td>
                                                 <td class="text-center" data-title="College">{{ department.college.name }}</td>
@@ -87,7 +87,7 @@
 
                                     <tbody>
                                         {% for squadron in squadrons %}
-                                            <tr style="cursor: pointer">
+                                            <tr>
                                                 <td class="text-center" data-title="Serial">{{ squadron.id }}</td>
                                                 <td class="text-center" data-title="School">{{ squadron.college.school }}</td>
                                                 <td class="text-center" data-title="College">{{ squadron.college.name }}</td>
@@ -128,7 +128,7 @@
 
                                     <tbody>
                                         {% for college in colleges %}
-                                            <tr style="cursor: pointer">
+                                            <tr>
                                                 <td class="text-center" data-title="Serial">{{ college.id }}</td>
                                                 <td class="text-center" data-title="School">{{ college.school }}</td>
                                                 <td class="text-center" data-title="Name">{{ college.name }}</td>
@@ -136,7 +136,7 @@
                                             </tr>
                                             {% empty %}
                                             <tr>
-                                                <td class="text-center" colspan="4">No squadron recently</td>
+                                                <td class="text-center" colspan="4">No college recently</td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
@@ -178,7 +178,7 @@
                                             </tr>
                                             {% empty %}
                                             <tr>
-                                                <td class="text-center" colspan="4">No squadron recently</td>
+                                                <td class="text-center" colspan="4">No school recently</td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>

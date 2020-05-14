@@ -1,8 +1,9 @@
 from django.urls import path, include
 from django.contrib.auth.views import LoginView
 
-from registration.views import IndexView, SignUpView, ProfileEditView
-from registration.views import logout, profile, photo_upload, current_photo_delete
+from registration.views.user import IndexView, SignUpView, ProfileEditView
+from registration.views.user import logout, profile, photo_upload, current_photo_delete
+from registration.views.student import StudentProfileUpdateView
 
 
 urlpatterns = [
@@ -21,5 +22,9 @@ urlpatterns = [
         path('upload', photo_upload, name='photo_upload'),
         path('delete/current', current_photo_delete, name='current_photo_delete'),
         # path('delete', photo_delete, name='photo_delete'),
+    ])),
+
+    path('student/', include([
+        path('profile', StudentProfileUpdateView.as_view(), name='student_profile'),
     ]))
 ]

@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from registration.views import UserListView, UserDetailView
+from registration.views.user import UserListView, UserDetailView
 from unit.views import UnitListView, SchoolCreate, CollegeCreate, DepartmentCreate, SquadronCreate
 
 urlpatterns = [

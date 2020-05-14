@@ -28,6 +28,9 @@
                                     <div id="modal-menu">
                                         <ul class="list-inline text-center">
                                             <li class="p-3 border-bottom" style="cursor: pointer" onclick="window.location.href='{% url 'profile' %}'">Profile</li>
+                                            {% if request.user.student %}
+                                            <li class="p-3 border-bottom" style="cursor: pointer" onclick="window.location.href='{% url 'student_profile' %}'">Student Profile</li>
+                                            {% endif %}
                                             <li class="p-3 border-bottom" style="cursor: pointer" onclick="window.location.href='{% url 'profile_edit' %}'">Profile Edit</li>
                                             <li class="p-3 border-bottom" style="cursor: pointer" onclick="alert('Function is developing. Stay tuned.🤪');">Email</li>
                                             <li class="p-3 border-bottom" style="cursor: pointer" onclick="alert('Function is developing. Stay tuned.🤪');">Password Change</li>

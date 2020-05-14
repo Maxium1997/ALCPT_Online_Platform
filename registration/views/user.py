@@ -4,6 +4,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView
 from django.core.exceptions import PermissionDenied
+from django.db import IntegrityError
 
 from ALCPT_Online_Platform.settings import LOGOUT_REDIRECT_URL
 from registration.models import User, Student
@@ -36,6 +37,7 @@ def logout(request):
     return redirect(LOGOUT_REDIRECT_URL)
 
 
+# For system manager to query the users in the system.
 @method_decorator(login_required, name='dispatch')
 class UserListView(ListView):
     model = User
@@ -54,6 +56,7 @@ class UserListView(ListView):
         return context
 
 
+# For system manager to view the user in the system.
 @method_decorator(login_required, name='dispatch')
 class UserDetailView(DetailView):
     model = User
@@ -67,6 +70,7 @@ class UserDetailView(DetailView):
         return super(UserDetailView, self).dispatch(request, *args, **kwargs)
 
 
+# For users to view the profile of themselves.
 @login_required
 def profile(request):
     context = {'user': request.user,
@@ -75,6 +79,7 @@ def profile(request):
     return render(request, 'account/profile.html', context)
 
 
+# For users to edit the profile of themselves.
 @method_decorator(login_required, name='dispatch')
 class ProfileEditView(UpdateView):
     model = User
@@ -85,10 +90,12 @@ class ProfileEditView(UpdateView):
     def form_valid(self, form):
         # the left side 'form' means 'User' object
         form = form.save(commit=False)
-        # This statement seems doing nothing
         if form.identity == Identity.Student.value[0]:
-            student = Student.objects.create(user=self.request.user)
-            student.save()
+            try:
+                student = Student.objects.create(user=self.request.user)
+                student.save()
+            except IntegrityError:
+                pass
         else:
             student = Student.objects.get(user=form)
             student.delete()
@@ -99,6 +106,7 @@ class ProfileEditView(UpdateView):
         return User.objects.get(pk=self.request.user.id)
 
 
+# A function to upload the user photo
 @login_required
 def photo_upload(request):
     user = request.user
@@ -115,6 +123,7 @@ def photo_upload(request):
         return render(request, 'account/profile_edit.html', context)
 
 
+# A function to delete the current photo of user
 @login_required
 def current_photo_delete(request):
     user = request.user

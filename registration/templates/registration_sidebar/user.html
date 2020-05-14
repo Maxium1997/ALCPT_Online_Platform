@@ -2,9 +2,9 @@
     <div class="card my-4 text-center">
         <a href="{% url 'profile' %}" class="card-header">Profile</a>
     </div>
-    {% if request.user.student %}
+    {% if request.user.is_student %}
     <div class="card my-4 text-center">
-        <a href="#student-profile" class="card-header">Student Profile</a>
+        <a href="{% url 'student_profile' %}" class="card-header">Student Profile</a>
     </div>
     {% endif %}
     <div class="card my-4 text-center">
