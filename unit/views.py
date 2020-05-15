@@ -5,6 +5,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
+from django.db import IntegrityError
 from django.template.defaultfilters import slugify
 
 from registration.definition import Privilege
@@ -68,8 +69,11 @@ class CollegeCreate(CreateView):
 
     def form_valid(self, form):
         college = form.save(commit=False)
-        college.school = form.cleaned_data['school']
-        college.save()
+        if college.name in [_.name for _ in form.cleaned_data['school'].college_set.all()]:
+            raise IntegrityError
+        else:
+            college.school = form.cleaned_data['school']
+            college.save()
         return redirect('unit_list')
 
 
@@ -88,8 +92,11 @@ class DepartmentCreate(CreateView):
 
     def form_valid(self, form):
         department = form.save(commit=False)
-        department.college = form.cleaned_data['college']
-        department.save()
+        if department.name in [_.name for _ in form.cleaned_data['college'].department_set.all()]:
+            raise IntegrityError
+        else:
+            department.college = form.cleaned_data['college']
+            department.save()
         return redirect('unit_list')
 
 
@@ -108,6 +115,9 @@ class SquadronCreate(CreateView):
 
     def form_valid(self, form):
         squadron = form.save(commit=False)
-        squadron.college = form.cleaned_data['college']
-        squadron.save()
+        if squadron.name in [_.name for _ in form.cleaned_data['college'].squadron_set.all()]:
+            raise IntegrityError
+        else:
+            squadron.college = form.cleaned_data['college']
+            squadron.save()
         return redirect('unit_list')
