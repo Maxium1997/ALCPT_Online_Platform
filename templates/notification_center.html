@@ -1,0 +1,50 @@
+{% load notification_filters %}
+
+<button type="button" class="btn" data-toggle="modal" data-target="#NotificationCenter">
+    <i class="fa fa-bell"></i>
+    {% if request.user|notification_unread_amount != 0 %}
+        <label class="notification-custom"><sup>{{ request.user|notification_unread_amount }}</sup></label>
+    {% endif %}
+</button>
+
+<div class="modal fade" id="NotificationCenter" tabindex="-1" role="dialog" aria-labelledby="NotificationCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title" id="ModalLongTitle">Notification Center(Total:{{ request.user|notification_center_amount }})</h5>
+            </div>
+
+            <div id="modal-menu">
+                <ul class="text-center list-inline">
+                    {% for notification in request.user.notification_set.all %}
+                        <li class="border pt-1 pb-1">
+                            <ul class="text-left list-inline pl-3">
+                                <li>Title: {{ notification.title }}</li>
+                                <li>Content: {{ notification.content|linebreaks }}</li>
+                                <li class="text-muted">-by {{ proclamation.created_by }} in {{ proclamation.created_time }}</li>
+                            </ul>
+                        </li>
+                    {% empty %}
+                        <li class="pt-3 pb-3">No notification recently</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="modal-footer">
+{#                <button type="button" class="btn btn-secondary" onclick="set_action('read');">Read</button>#}
+{#                <button type="button" class="btn btn-light" onclick="set_action('delete');">Delete</button>#}
+                <a class="btn btn-secondary" style="color: white" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .notification-custom{
+        width: 15px;
+        height: 15px;
+        background-color: red;
+        border-radius: 24px;
+        color: white;
+        text-align: center;
+    }
+</style>

@@ -1,0 +1,33 @@
+<button type="button" class="btn text-dark" data-toggle="modal" data-target="#ModalCenter">
+    <i class="fa fa-user"></i>
+</button>
+
+<div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title" id="ModalLongTitle">User: {{ request.user.username }}</h5>
+            </div>
+
+            <div id="modal-menu">
+                <ul class="list-inline text-center">
+                    <li class="p-3 border-bottom" style="cursor: pointer" onclick="window.location.href='{% url 'profile' %}'">Profile</li>
+                    {% if request.user.student %}
+                    <li class="p-3 border-bottom" style="cursor: pointer" onclick="window.location.href='{% url 'student_profile' %}'">Student Profile</li>
+                    {% endif %}
+                    <li class="p-3 border-bottom" style="cursor: pointer" onclick="window.location.href='{% url 'profile_edit' %}'">Profile Edit</li>
+                    <li class="p-3 border-bottom" style="cursor: pointer" onclick="alert('Function is developing. Stay tuned.🤪');">Email</li>
+                    <li class="p-3 border-bottom" style="cursor: pointer" onclick="alert('Function is developing. Stay tuned.🤪');">Password Change</li>
+                    <li class="p-3 border-bottom" style="cursor: pointer" onclick="alert('Function is developing. Stay tuned.🤪');">Real Exam Record</li>
+                    <li class="p-3 border-bottom" style="cursor: pointer" onclick="alert('Function is developing. Stay tuned.🤪');">Report</li>
+                    <li class="p-3" style="cursor: pointer" onclick="alert('Function is developing. Stay tuned.🤪');">About</li>
+                </ul>
+            </div>
+
+            <div class="modal-footer">
+                <a class="btn btn-light" href="{% url 'logout' %}" onclick="return confirm('Sure to logout?')">Logout</a>
+                <a class="btn btn-secondary" style="color: white" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
