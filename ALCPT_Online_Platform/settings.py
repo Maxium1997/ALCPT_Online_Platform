@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'notification',
     'unit',
     'alcpt',
+    'question',
 ]
 
 MIDDLEWARE = [
