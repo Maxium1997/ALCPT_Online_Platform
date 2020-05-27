@@ -32,9 +32,9 @@ class ProfileEditForm(forms.ModelForm):
                                 widget=forms.TextInput(attrs={'class': 'form-control',
                                                               'placeholder': 'Last name'}),
                                 error_messages={'required': "Last name field is required."})
-    CHOICES = [(_.value[0], _.value[1]) for _ in Gender.__members__.values()]
+    GENDERS = [(_.value[0], _.value[1]) for _ in Gender.__members__.values()]
     gender = forms.ChoiceField(required=True,
-                               choices=CHOICES,
+                               choices=GENDERS,
                                widget=forms.Select(attrs={'id': 'gender',
                                                           'class': 'form-control'}),
                                error_messages={'required': "Please select your gender."})

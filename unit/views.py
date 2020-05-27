@@ -69,7 +69,7 @@ class CollegeCreate(CreateView):
 
     def form_valid(self, form):
         college = form.save(commit=False)
-        if college.name in [_.name for _ in form.cleaned_data['school'].college_set.all()]:
+        if College.objects.filter(school=form.cleaned_data['school'], name=college.name):
             raise IntegrityError
         else:
             college.school = form.cleaned_data['school']
@@ -92,7 +92,7 @@ class DepartmentCreate(CreateView):
 
     def form_valid(self, form):
         department = form.save(commit=False)
-        if department.name in [_.name for _ in form.cleaned_data['college'].department_set.all()]:
+        if Department.objects.filter(college=form.cleaned_data['college'], name=department.name):
             raise IntegrityError
         else:
             department.college = form.cleaned_data['college']
@@ -115,7 +115,7 @@ class SquadronCreate(CreateView):
 
     def form_valid(self, form):
         squadron = form.save(commit=False)
-        if squadron.name in [_.name for _ in form.cleaned_data['college'].squadron_set.all()]:
+        if Squadron.objects.filter(college=form.cleaned_data['college'], name=squadron.name):
             raise IntegrityError
         else:
             squadron.college = form.cleaned_data['college']

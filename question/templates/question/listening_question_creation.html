@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}New Question - Listening{% endblock %}
+
+{% block sidebar %}
+    {% include 'sidebar/question.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-12 mt-4">
+        <h1>New Question</h1>
+        <p class="lead">Input the required data of question creation</p>
+        <form enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <h5>{{ question_form.q_file.label }}</h5>
+            {{ question_form.q_file }}
+            <div class="dropdown-divider"></div>
+            <h5>{{ question_form.q_type.label }}</h5>
+            {{ question_form.q_type }}
+            <div class="dropdown-divider"></div>
+            <h5>{{ question_form.difficulty.label }}</h5>
+            {{ question_form.difficulty }}
+            <div class="dropdown-divider"></div>
+            <h5>Choice</h5>
+{#            A.<p><input type="text" name="choice1" class="form-control" placeholder="Please input the choice A content" required></p>#}
+{#            B.<p><input type="text" name="choice2" class="form-control" placeholder="Please input the choice B content" required></p>#}
+{#            C.<p><input type="text" name="choice3" class="form-control" placeholder="Please input the choice C content" required></p>#}
+{#            D.<p><input type="text" name="choice4" class="form-control" placeholder="Please input the choice D content" required></p>#}
+            A.<p>{{ choice1_form.c_content }}</p>
+            B.<p>{{ choice2_form.c_content }}</p>
+            C.<p>{{ choice3_form.c_content }}</p>
+            D.<p>{{ choice4_form.c_content }}</p>
+
+            <div class="float-right">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary" onclick="history.go(-1)">Cancel</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
