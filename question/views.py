@@ -53,11 +53,11 @@ class ListeningQuestionCreateView(View):
         question_form = ListeningQuestionForm(instance=Question())
         choice_forms = [ChoiceForm(prefix=str(x), instance=Choice()) for x in range(4)]
         template = 'question/listening_question_creation.html'
-        context = {'question_form': question_form, 'choice_forms': choice_forms}
+        context = {'question_form': question_form,
+                   'choice_forms': choice_forms}
         return render(request, template, context)
 
     def post(self, request):
-        context = {}
         question_form = ListeningQuestionForm(request.POST, request.FILES, instance=Question())
         choice_forms = [ChoiceForm(request.POST, prefix=str(x), instance=Choice()) for x in range(0, 4)]
 
@@ -72,7 +72,7 @@ class ListeningQuestionCreateView(View):
                 new_choice = cf.save(commit=False)
                 new_choice.source = new_question
                 new_choice.save()
-            return redirect('user_list')
+            return redirect('TBOperator_question_list')
 
         context = {'question_form': question_form,
                    'choice_forms': choice_forms}

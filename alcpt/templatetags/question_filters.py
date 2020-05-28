@@ -1,6 +1,6 @@
 from django import template
 
-from question.definition import QuestionType, State
+from question.definition import QuestionType, State, Difficulty
 
 register = template.Library()
 
@@ -17,3 +17,10 @@ def readableQuestionState(value):
     for state in State.__members__.values():
         if value == state.value[0]:
             return state.value[1]
+
+
+@register.filter(name='readableDifficulty')
+def readableDifficulty(value):
+    for difficulty in Difficulty.__members__.values():
+        if value == difficulty.value[0]:
+            return difficulty.value[1]
