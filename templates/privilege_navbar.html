@@ -32,8 +32,8 @@
             TBManager
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#TBM_question_list">Question List</a>
-            <a class="dropdown-item" href="#TBM_question_review">Question Review</a>
+            <a class="dropdown-item" href="{% url 'TBManager_question_list' %}">Question List</a>
+            <a class="dropdown-item" href="{% url 'TBManager_review_list' %}">Question Review</a>
         </div>
     </li>
 {% endif %}

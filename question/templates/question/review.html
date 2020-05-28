@@ -2,15 +2,15 @@
 
 {% load question_filters %}
 
-{% block title %}TBOperator Index{% endblock %}
+{% block title %}TBManager Review{% endblock %}
 
 {% block sidebar %}
-    {% include 'sidebar/alcpt/TBOperator.html' %}
+    {% include 'sidebar/alcpt/TBManager.html' %}
 {% endblock %}
 
 {% block content %}
     <div class="col-md-12 mt-4">
-        <h1>List of Question</h1>
+        <h1>Question Review</h1>
         <p class="lead">Total: {{ questions.count }}</p>
         <div class="table-responsive">
             <table class="table table-striped table-hover table-mc-light-blue">
@@ -40,9 +40,9 @@
                         <td class="align-middle">{{ question.q_type|readableQuestionType }}</td>
                         <td class="align-middle">{{ question.state|readableQuestionState }}</td>
                         <td class="align-middle">
-                            <a href="{% url 'question_submit' question.id %}" class="btn btn-outline-success" role="button">Submit</a>
-                            <a href="#Edit" class="btn btn-outline-warning" role="button">Edit</a>
-                            <a href="{% url 'question_delete' question.id %}" class="btn btn-outline-danger" role="button" onclick="return confirm('Sure to delete?')">Delete</a>
+                            <a href="{% url 'question_pass' question.id %}" class="btn btn-outline-success" role="button" onclick="return confirm('Sure to pass?')">Pass</a>
+                            <a href="#question_edit" class="btn btn-outline-warning" role="button">Edit</a>
+                            <a href="#question_reject" class="btn btn-outline-danger" role="button">Reject</a>
                             <a href="#More" class="btn btn-outline-primary" role="button" id="question-{{ question.id }}" data-toggle="collapse" data-target="#choices-{{ question.id }}" aria-expanded="true" aria-controls="choices-{{ question.id }}">More</a>
                         </td>
                     </tr>

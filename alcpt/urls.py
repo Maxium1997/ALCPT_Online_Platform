@@ -13,6 +13,10 @@ urlpatterns = [
     ])),
 
     path('TBOperator/', include([
-        path('', include('question.urls')),
+        path('', include('question.tbo_urls'))
     ])),
+
+    path('TBManager/', include([
+        path('', include('question.tbm_urls'))
+    ]))
 ]

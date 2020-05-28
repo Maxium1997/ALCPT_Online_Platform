@@ -1,7 +1,8 @@
 from django.urls import path, include
 
-from question.views import TBOperatorQuestionListView
-from question.views import QuestionCreation, ListeningQuestionCreateView, ReadingQuestionCreateView
+from question.views.tbo_views import TBOperatorQuestionListView
+from question.views.tbo_views import QuestionCreation, ListeningQuestionCreateView, ReadingQuestionCreateView
+from question.views.tbo_views import question_submit, question_delete
 
 
 urlpatterns = [
@@ -12,5 +13,7 @@ urlpatterns = [
             path('listening', ListeningQuestionCreateView.as_view(), name='listening_question_creation'),
             path('reading', ReadingQuestionCreateView.as_view(), name='reading_question_creation'),
         ])),
+        path('<pk>/submit', question_submit, name='question_submit'),
+        path('<pk>/delete', question_delete, name='question_delete'),
     ])),
 ]

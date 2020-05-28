@@ -1,13 +1,16 @@
 from datetime import datetime
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.views.generic import TemplateView, ListView, View
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
+from alcpt.decorators import permission_check
 from registration.definition import Privilege
 from question.models import Question, Choice
+from question.definition import State
 from question.forms import ListeningQuestionForm, ReadingQuestionForm, ChoiceForm
 
 # Create your views here.
@@ -19,14 +22,14 @@ class TBOperatorQuestionListView(ListView):
     template_name = 'question/TBOperator_index.html'
 
     def dispatch(self, request, *args, **kwargs):
-        required_privilege = Privilege.SystemManager
+        required_privilege = Privilege.TBOperator
         if not request.user.has_permission(required_privilege):
             raise PermissionDenied
         return super(TBOperatorQuestionListView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['questions'] = Question.objects.all()
+        context['questions'] = Question.objects.filter(state=State.Saved.value[0] or State.Rejected.value[0] or State.Faulty.value[0])
         return context
 
 
@@ -114,3 +117,20 @@ class ReadingQuestionCreateView(View):
                    'choice_forms': choice_forms}
         template = 'question/reading_question_creation.html'
         return render(request, template, context)
+
+
+@permission_check(Privilege.TBOperator)
+def question_submit(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    question.state = State.Pending.value[0]
+    question.save()
+    messages.success(request, "Successfully Submitted")
+    return redirect('TBOperator_question_list')
+
+
+@permission_check(Privilege.TBOperator)
+def question_delete(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    question.delete()
+    messages.success(request, "Successfully Deleted")
+    return redirect('TBOperator_question_list')
