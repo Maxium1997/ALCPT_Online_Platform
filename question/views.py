@@ -8,7 +8,7 @@ from django.core.exceptions import PermissionDenied
 
 from registration.definition import Privilege
 from question.models import Question, Choice
-from question.forms import ListeningQuestionForm, ChoiceForm
+from question.forms import ListeningQuestionForm, ReadingQuestionForm, ChoiceForm
 
 # Create your views here.
 
@@ -79,3 +79,38 @@ class ListeningQuestionCreateView(View):
         template = 'question/listening_question_creation.html'
         return render(request, template, context)
 
+
+@method_decorator(login_required, name='dispatch')
+class ReadingQuestionCreateView(View):
+    def dispatch(self, request, *args, **kwargs):
+        required_privilege = Privilege.TBOperator
+        if not request.user.has_permission(required_privilege):
+            raise PermissionDenied
+        return super(ReadingQuestionCreateView, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        question_form = ReadingQuestionForm(instance=Question())
+        choice_forms = [ChoiceForm(prefix=str(x), instance=Choice()) for x in range(4)]
+        template = 'question/reading_question_creation.html'
+        context = {'question_form': question_form,
+                   'choice_forms': choice_forms}
+        return render(request, template, context)
+
+    def post(self, request):
+        question_form = ReadingQuestionForm(request.POST, instance=Question())
+        choice_forms = [ChoiceForm(request.POST, prefix=str(x), instance=Choice()) for x in range(0, 4)]
+
+        if question_form.is_valid() and all([cf.is_valid() for cf in choice_forms]):
+            new_question = question_form.save(commit=False)
+            new_question.created_by = request.user
+            new_question.save()
+            for cf in choice_forms:
+                new_choice = cf.save(commit=False)
+                new_choice.source = new_question
+                new_choice.save()
+            return redirect('TBOperator_question_list')
+
+        context = {'question_form': question_form,
+                   'choice_forms': choice_forms}
+        template = 'question/reading_question_creation.html'
+        return render(request, template, context)
