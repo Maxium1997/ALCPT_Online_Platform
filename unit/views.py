@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -39,8 +40,6 @@ class SchoolCreate(SuccessMessageMixin, CreateView):
     template_name = 'unit/create_school.html'
     form_class = SchoolCreateForm
     context_object_name = 'school'
-    # Cannot show normally
-    success_message = "Create successfully."
     success_url = reverse_lazy('unit_list')
 
     def dispatch(self, request, *args, **kwargs):
@@ -50,7 +49,13 @@ class SchoolCreate(SuccessMessageMixin, CreateView):
         return super(SchoolCreate, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        form.save()
+        school = form.save(commit=False)
+        if School.objects.filter(name=school.name, address=school.address, website=school.website):
+            messages.error(self.request, "Failed Created, the school is existed.")
+            return redirect(self.request.META.get('HTTP_REFERER'))
+        else:
+            school.save()
+            messages.success(self.request, "Successfully Created.")
         return redirect(self.success_url)
 
 
@@ -70,10 +75,12 @@ class CollegeCreate(CreateView):
     def form_valid(self, form):
         college = form.save(commit=False)
         if College.objects.filter(school=form.cleaned_data['school'], name=college.name):
-            raise IntegrityError
+            messages.error(self.request, "Failed Created, the college is existed.")
+            return redirect(self.request.META.get('HTTP_REFERER'))
         else:
             college.school = form.cleaned_data['school']
             college.save()
+            messages.success(self.request, "Successfully Created.")
         return redirect('unit_list')
 
 
@@ -93,10 +100,12 @@ class DepartmentCreate(CreateView):
     def form_valid(self, form):
         department = form.save(commit=False)
         if Department.objects.filter(college=form.cleaned_data['college'], name=department.name):
-            raise IntegrityError
+            messages.error(self.request, "Failed Created, the department is existed.")
+            return redirect(self.request.META.get('HTTP_REFERER'))
         else:
             department.college = form.cleaned_data['college']
             department.save()
+            messages.success(self.request, "Successfully Created.")
         return redirect('unit_list')
 
 
@@ -116,8 +125,10 @@ class SquadronCreate(CreateView):
     def form_valid(self, form):
         squadron = form.save(commit=False)
         if Squadron.objects.filter(college=form.cleaned_data['college'], name=squadron.name):
-            raise IntegrityError
+            messages.error(self.request, "Failed Created, the squadron is existed.")
+            return redirect(self.request.META.get('HTTP_REFERER'))
         else:
             squadron.college = form.cleaned_data['college']
             squadron.save()
+            messages.success(self.request, "Successfully Created.")
         return redirect('unit_list')

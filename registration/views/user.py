@@ -33,7 +33,6 @@ class SignUpView(CreateView):
 @login_required
 def logout(request):
     auth.logout(request)
-    messages.success(request, "Logout successfully")
     return redirect(LOGOUT_REDIRECT_URL)
 
 

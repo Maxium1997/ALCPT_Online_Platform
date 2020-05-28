@@ -35,8 +35,6 @@ class StudentProfileUpdateView(UpdateView):
 
     # def get_form(self, form_class=None):
 
-
-
     def get_object(self, queryset=None):
         return Student.objects.get(pk=self.request.user.student.id)
 

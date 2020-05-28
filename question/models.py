@@ -8,7 +8,7 @@ from question.definition import Difficulty, State
 
 class Question(models.Model):
     q_type = models.PositiveSmallIntegerField(blank=False, null=False)
-    q_file = models.FileField(upload_to='Listening Question Audio File', null=True)
+    q_file = models.FileField(upload_to='listening_question_audio_file', null=True)
     q_content = models.TextField(blank=True, null=True)
     difficulty = models.PositiveSmallIntegerField(default=Difficulty.Simple.value[0])
     issued_freq = models.PositiveIntegerField(default=0)
@@ -24,7 +24,7 @@ class Question(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='producer')
     updated_time = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    state = models.PositiveSmallIntegerField(default=State.Saved)
+    state = models.PositiveSmallIntegerField(default=State.Saved.value[0])
 
     @property   # read only
     def correct_rate(self):

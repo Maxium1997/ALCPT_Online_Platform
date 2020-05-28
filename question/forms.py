@@ -30,10 +30,6 @@ class ChoiceForm(forms.ModelForm):
                                 widget=forms.TextInput(attrs={'class': 'form-control',
                                                               'placeholder': 'Please Enter the content of the choice'}))
 
-    def __init__(self, name):
-        super().__init__()
-        self.name = name
-
     class Meta:
         model = Choice
-        fields = ['source', 'c_content']
+        exclude = ['source']

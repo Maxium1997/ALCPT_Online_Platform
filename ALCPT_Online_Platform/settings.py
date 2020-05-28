@@ -39,9 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'registration',
     'notification',
+    'question',
     'unit',
     'alcpt',
-    'question',
 ]
 
 MIDDLEWARE = [
