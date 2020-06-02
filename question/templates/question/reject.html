@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load question_filters %}
+
+{% block title %}TBManager Review - Reject{% endblock %}
+
+{% block sidebar %}
+    {% include 'sidebar/alcpt/TBManager.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-12 mt-4">
+        <h1>Question Reject</h1>
+        <p class="lead">Write down the reason that why you want to reject this question</p>
+        <h3>Question</h3>
+
+        <p>
+            {% if question.q_file %}
+                    <audio controls preload="none">
+                        <source src="{{ question.q_file.url }}" type="audio/mpeg">
+                        Your browser does not support the audio tag.
+                    </audio>
+            {% elif question.q_content %}
+                {{ question.q_content|linebreaks }}
+            {% else %}
+                Unknown Content
+            {% endif %}
+        </p>
+
+        <h3>Choice</h3>
+        <p>
+            <ol type="A">
+                {% for choice in question.choice_set.all %}
+                    <li {% if choice.is_answer %}style="color: red"{% endif %}>{{ choice.c_content }}</li>
+                {% endfor %}
+            </ol>
+        </p>
+
+        <form action="{% url 'question_reject' question.id %}" method="post">
+            {% csrf_token %}
+            <p>
+                <h5>{{ reject_reason_form.faulty_reason.label }}</h5>
+                {{ reject_reason_form.faulty_reason }}
+            </p>
+
+            <div class="float-right">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary" onclick="history.go(-1)">Cancel</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

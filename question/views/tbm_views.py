@@ -9,9 +9,9 @@ from django.core.exceptions import PermissionDenied
 
 from alcpt.decorators import permission_check
 from registration.definition import Privilege
-from question.models import Question, Choice
+from question.models import Question
 from question.definition import State
-from question.forms import ListeningQuestionForm, ReadingQuestionForm, ChoiceForm
+from question.forms import RejectReasonForm
 
 
 @method_decorator(login_required, name='dispatch')
@@ -51,7 +51,40 @@ class TBManagerReviewListView(ListView):
 @permission_check(Privilege.TBManager)
 def question_pass(request, pk):
     question = get_object_or_404(Question, pk=pk)
-    question.state = State.Passed.value[0]
-    question.save()
-    messages.success(request, "Successfully Passed")
+
+    if question.state is State.Pending.value[0]:
+        question.state = State.Passed.value[0]
+        question.save()
+        messages.success(request, "Successfully Passed")
+    else:
+        messages.warning(request, "Failed Pass. The state of question is not pending.")
+
     return redirect('TBManager_review_list')
+
+
+@permission_check(Privilege.TBManager)
+def question_reject(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+
+    if question.state is State.Pending.value[0]:
+        if request.method == 'POST':
+
+            if question.faulty_reason is None:
+                question.faulty_reason = request.POST.get('faulty_reason') + '\n'
+            else:
+                question.faulty_reason += request.POST.get('faulty_reason') + '\n'
+
+            question.state = State.Rejected.value[0]
+            question.save()
+            messages.success(request, "Successfully Reject.")
+            return redirect('TBManager_review_list')
+        else:
+            context = {'question': question,
+                       'reject_reason_form': RejectReasonForm}
+            template = 'question/reject.html'
+            return render(request, template, context)
+    else:
+        messages.warning(request, "Failed Reject. The state of question is not pending.")
+        return redirect('TBManager_review_list')
+
+

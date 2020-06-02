@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
-{% block title %}New Question - Listening{% endblock %}
+{% load question_filters %}
+
+{% block title %}TBOperator Edit{% endblock %}
 
 {% block sidebar %}
     {% include 'sidebar/alcpt/TBOperator.html' %}
@@ -8,12 +10,23 @@
 
 {% block content %}
     <div class="col-md-12 mt-4">
-        <h1>New Question</h1>
-        <p class="lead">Input the required data of question creation</p>
         <form enctype="multipart/form-data" method="post">
             {% csrf_token %}
-            <h5>Question File</h5>
-            {{ question_form.q_file }}
+            <h1>Question Edit</h1>
+            <p class="lead">Please update the content and resubmit to TBManager to review</p>
+
+            {% if question.q_file %}
+                <h5>Question File</h5>
+                <audio controls preload="none">
+                    <source src="{{ question.q_file.url }}" type="audio/mpeg">
+                    Your browser does not support the audio tag.
+                </audio>
+            {% elif question.q_content %}
+                <h5>Question Content</h5>
+                {{ question_form.q_content }}
+            {% else %}
+                Unknown Content
+            {% endif %}
 
             <div class="dropdown-divider"></div>
 
@@ -36,6 +49,7 @@
 
             <div class="float-right">
                 <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-default">Reset</button>
                 <button type="button" class="btn btn-secondary" onclick="history.go(-1)">Cancel</button>
             </div>
         </form>

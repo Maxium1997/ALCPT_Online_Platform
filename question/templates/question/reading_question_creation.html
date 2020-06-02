@@ -12,25 +12,27 @@
         <p class="lead">Input the required data of question creation</p>
         <form enctype="multipart/form-data" method="post">
             {% csrf_token %}
-            <h5>{{ question_form.q_content.label }}</h5>
+            <h5>Question Content</h5>
             {{ question_form.q_content }}
 
             <div class="dropdown-divider"></div>
 
-            <h5>{{ question_form.q_type.label }}</h5>
+            <h5>Question Type</h5>
             {{ question_form.q_type }}
 
             <div class="dropdown-divider"></div>
 
-            <h5>{{ question_form.difficulty.label }}</h5>
+            <h5>Question Difficulty</h5>
             {{ question_form.difficulty }}
 
             <div class="dropdown-divider"></div>
 
             <h5>Choice</h5>
-            {% for cf in choice_forms %}
-                {{ cf.is_answer }}{{ cf.is_answer.label }}<p>{{ cf.c_content }}</p>
-            {% endfor %}
+            <ol type="A">
+                {% for cf in choice_forms %}
+                    <li>{{ cf.is_answer }}{{ cf.is_answer.label }}<p>{{ cf.c_content }}</p></li>
+                {% endfor %}
+            </ol>
 
             <div class="float-right">
                 <button type="submit" class="btn btn-primary">Submit</button>

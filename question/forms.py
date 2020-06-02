@@ -25,6 +25,26 @@ class ListeningQuestionForm(forms.ModelForm):
         fields = ['q_file', 'q_type', 'difficulty']
 
 
+class ListeningQuestionEditForm(forms.ModelForm):
+    QUESTION_TYPES = []
+    for type in QuestionType.__members__.values():
+        if type.value[1] == 'Listening':
+            QUESTION_TYPES.append((type.value[0], type.value[2]))
+    q_type = forms.ChoiceField(required=True,
+                               choices=QUESTION_TYPES,
+                               widget=forms.Select(attrs={'class': 'form-control'}),
+                               error_messages={'required': "Please set the type of the question."})
+    DIFFICULTIES = [(_.value[0], _.value[1]) for _ in Difficulty.__members__.values()]
+    difficulty = forms.ChoiceField(required=True,
+                                   choices=DIFFICULTIES,
+                                   widget=forms.Select(attrs={'class': 'form-control'}),
+                                   error_messages={'required': "Please set the difficulty of the question."})
+
+    class Meta:
+        model = Question
+        fields = ['q_type', 'difficulty']
+
+
 class ReadingQuestionForm(forms.ModelForm):
     q_content = forms.CharField(required=True,
                                 widget=forms.Textarea(attrs={'class': 'form-control',
@@ -57,3 +77,12 @@ class ChoiceForm(forms.ModelForm):
     class Meta:
         model = Choice
         exclude = ['source']
+
+
+class RejectReasonForm(forms.Form):
+    faulty_reason = forms.CharField(required=True,
+                                    widget=forms.Textarea(attrs={'class': 'form-control',
+                                                                 'rows': '5'}))
+
+    class Meta:
+        fields = ['faulty_reason']

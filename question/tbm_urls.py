@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from question.views.tbm_views import TBManagerQuestionListView, TBManagerReviewListView
-from question.views.tbm_views import question_pass
+from question.views.tbm_views import question_pass, question_reject
 
 
 urlpatterns = [
@@ -10,6 +10,7 @@ urlpatterns = [
         path('review', TBManagerReviewListView.as_view(), name='TBManager_review_list'),
         path('<pk>/', include([
             path('pass', question_pass, name='question_pass'),
+            path('reject', question_reject, name='question_reject'),
         ]))
     ])),
 ]
