@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load registration_filters %}
+
+{% block sidebar %}
+    {% include 'sidebar/user.html' %}
+{% endblock %}
+
+{% block title %}Album{% endblock %}
+
+{% block content %}
+    <div class="mt-4">
+        {% for image in photo_list %}
+            <img class="card-img-top" src="{{ image }}" alt="{{ user.username }}">
+        {% endfor %}
+    </div>
+    <style type="text/css">
+        img{
+            max-width: 15%;
+            max-height: 15%;
+        }
+    </style>
+{% endblock %}

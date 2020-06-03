@@ -1,3 +1,5 @@
+from os import listdir
+
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
 from django.utils.decorators import method_decorator
@@ -6,7 +8,7 @@ from django.views.generic import ListView, DetailView, TemplateView, CreateView,
 from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError
 
-from ALCPT_Online_Platform.settings import LOGOUT_REDIRECT_URL
+from ALCPT_Online_Platform.settings import LOGOUT_REDIRECT_URL, MEDIA_ROOT
 from registration.models import User, Student
 from registration.forms import SignUpForm, ProfileEditForm
 from registration.definition import Privilege, Identity
@@ -128,3 +130,23 @@ def current_photo_delete(request):
     user = request.user
     user_photo_remove(user)
     return redirect('profile_edit')
+
+
+@method_decorator(login_required, name='dispatch')
+class AlbumView(TemplateView):
+    template_name = 'account/album.html'
+
+    def get_context_data(self, **kwargs):
+        photo_path_list = []
+
+        album_path = MEDIA_ROOT + 'photos/' + self.request.user.username
+
+        for file in listdir(album_path):
+            if file.endswith('.jpg') or file.endswith('.jpeg') or file.endswith('.png'):
+                photo_path_list.append(
+                    '/' + MEDIA_ROOT.split('/')[-2] + '/photos/' + self.request.user.username + '/' + file)
+
+        context = {'user': self.request.user,
+                   'photo_list': photo_path_list}
+
+        return context
