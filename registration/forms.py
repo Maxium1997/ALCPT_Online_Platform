@@ -85,3 +85,13 @@ class StudentProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = ['stu_id', 'department', 'squadron', 'year_grade']
+
+
+class UserFilterForm(forms.Form):
+    content = forms.CharField(required=False,
+                              widget=forms.TextInput(attrs={'class': 'form-control col-lg-9 float-left',
+                                                            'placeholder': 'Filter by Username'}))
+    IDENTITIES = [('', 'Filter by identity')] + [(_.value[0], _.value[1]) for _ in Identity.__members__.values()]
+    identity = forms.ChoiceField(required=False,
+                                 choices=IDENTITIES,
+                                 widget=forms.Select(attrs={'class': 'custom-select col-lg-2 float-left ml-2'}))

@@ -1,0 +1,10 @@
+<div>
+    <form method="post">
+        {% csrf_token %}
+        {{ user_filter_form.content }}
+        {{ user_filter_form.identity }}
+        <div class="float-right mb-2">
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+        </div>
+    </form>
+</div>
