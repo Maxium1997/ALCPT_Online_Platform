@@ -1,7 +1,7 @@
 from django import forms
 
 from question.models import Question, Choice
-from question.definition import QuestionType, Difficulty
+from question.definition import QuestionType, Difficulty, State
 
 
 class ListeningQuestionForm(forms.ModelForm):
@@ -86,3 +86,17 @@ class RejectReasonForm(forms.Form):
 
     class Meta:
         fields = ['faulty_reason']
+
+
+class QuestionFilterForm(forms.Form):
+    content = forms.CharField(required=False,
+                              widget=forms.TextInput(attrs={'class': 'form-control col-lg-4 float-left',
+                                                            'placeholder': 'Filter by question content'}))
+    QUESTION_TYPES = [('', 'Filter by type')] + [(_.value[0], _.value[2]) for _ in QuestionType.__members__.values()]
+    type = forms.ChoiceField(required=False,
+                             choices=QUESTION_TYPES,
+                             widget=forms.Select(attrs={'class': 'form-control custom-select col-lg-2 float-left'}))
+    STATES = [('', 'Filter by state')] + [(_.value[0], _.value[1]) for _ in State.__members__.values()]
+    state = forms.ChoiceField(required=False,
+                              choices=STATES,
+                              widget=forms.Select(attrs={'class': 'form-control custom-select col-lg-2 float-left'}))

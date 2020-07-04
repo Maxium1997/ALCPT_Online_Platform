@@ -61,8 +61,10 @@ class UserListView(View):
         if user_filter_form.is_valid():
             filter_criteria = Q()
             if user_filter_form.cleaned_data['content']:
-                filter_criteria &= Q(username__icontains=user_filter_form.cleaned_data['content'])
-            elif user_filter_form.cleaned_data['identity']:
+                filter_criteria &= Q(username__icontains=user_filter_form.cleaned_data['content']) | \
+                                   Q(last_name__icontains=user_filter_form.cleaned_data['content']) | \
+                                   Q(first_name__icontains=user_filter_form.cleaned_data['content'])
+            if user_filter_form.cleaned_data['identity']:
                 filter_criteria &= Q(identity=user_filter_form.cleaned_data['identity'])
 
             users = list(User.objects.filter(filter_criteria))

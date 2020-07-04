@@ -12,6 +12,7 @@
     <div class="col-md-12 mt-4">
         <h1>List of Question</h1>
         <p class="lead">Total: {{ questions.count }}</p>
+        {% include 'searchbar/question.html' %}
         <div class="table-responsive">
             <table class="table table-striped table-hover table-mc-light-blue">
                 <thead class="thead-light text-center">
