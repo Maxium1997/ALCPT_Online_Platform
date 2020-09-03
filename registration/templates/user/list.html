@@ -20,8 +20,8 @@
                     <th style="width: 14%">Name</th>
                     <th style="width: 4%">Identity</th>
                     <th style="width: 36%">Privilege
-                        <i class="fa fa-question-circle" style="cursor: pointer" data-toggle="modal" data-target="#promptContent"></i>
-                        <div class="modal fade text-left" id="promptContent" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+                        <i class="fa fa-question-circle" style="cursor: pointer" data-toggle="modal" data-target="#prompt-content"></i>
+                        <div class="modal fade text-left" id="prompt-content" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header text-center">
@@ -47,7 +47,7 @@
                 </thead>
                 <tbody>
                 {% for user in users %}
-                    <tr>
+                    <tr style="cursor: pointer" data-toggle="modal" data-target="#user-{{ user.username }}-modal">
                         <td class="align-middle">{{ user.username }}</td>
                         <td class="align-middle">{{ user.get_full_name }}</td>
                         <td class="align-middle text-center">{{ user.identity|readableIdentity }}</td>
@@ -71,12 +71,28 @@
                                 <span class="badge alert-light">Testee</span>
                             {% endif %}
                         </td>
-                        <td class="align-middle">
-                            <span id="last-login-label" onclick="window.location.href='#user-update'">{{ user.last_login }}</span>
-                            <span id="user-detail-icon" onclick="window.location.href='{% url 'view_user_detail' user.id %}'"><i class="fa fa-exclamation-circle float-right ml-2"></i></span>
-                            <span id="user-edit-icon"><i class="fa fa-pencil-square-o float-right ml-2"></i></span>
-                        </td>
+                        <td class="align-middle">{{ user.last_login }}</td>
                     </tr>
+                    <div class="modal fade" id="user-{{ user.username }}-modal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header text-center" style="width: 100%">
+                                    <h5 class="modal-title" id="ModalLongTitle">Features</h5>
+                                </div>
+
+                                <div id="modal-menu" style="width: 100%">
+                                    <ul class="list-inline text-center">
+                                        <li class="p-3 border-bottom" style="cursor: pointer" onclick="window.location.href='#edit_user'">Edit User</li>
+                                        <li class="p-3" style="cursor: pointer" onclick="window.location.href='{% url 'view_user_detail' user.id %}'">View User</li>
+                                    </ul>
+                                </div>
+
+                                <div class="modal-footer" style="width: 100%">
+                                    <a class="btn btn-outline-secondary" data-dismiss="modal">Close</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 {% empty %}
 
                 {% endfor %}
@@ -84,29 +100,4 @@
             </table>
         </div>
     </div>
-
-    <style type="text/css">
-        #last-login-label{
-            display: inline;
-        }
-        tr:hover #last-login-label{
-            display: none;
-        }
-        #user-edit-icon{
-            display: none;
-        }
-        tr:hover #user-edit-icon{
-            font-size: 20px;
-            display: inline;
-            cursor: pointer;
-        }
-        #user-detail-icon{
-            display: none;
-        }
-        tr:hover #user-detail-icon{
-            font-size: 18px;
-            display: inline;
-            cursor: pointer;
-        }
-    </style>
 {% endblock %}

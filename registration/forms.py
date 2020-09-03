@@ -90,8 +90,10 @@ class StudentProfileUpdateForm(forms.ModelForm):
 class UserFilterForm(forms.Form):
     content = forms.CharField(required=False,
                               widget=forms.TextInput(attrs={'class': 'form-control col-lg-4 float-left',
+                                                            'onkeyup': 'is_empty();',
                                                             'placeholder': 'Filter by Username or Name'}))
     IDENTITIES = [('', 'Filter by identity')] + [(_.value[0], _.value[1]) for _ in Identity.__members__.values()]
     identity = forms.ChoiceField(required=False,
                                  choices=IDENTITIES,
-                                 widget=forms.Select(attrs={'class': 'custom-select col-lg-2 float-left'}))
+                                 widget=forms.Select(attrs={'class': 'custom-select col-lg-2 float-left',
+                                                            'onchange': 'is_change();'}))

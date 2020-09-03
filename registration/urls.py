@@ -1,14 +1,12 @@
 from django.urls import path, include
 from django.contrib.auth.views import LoginView
 
-from registration.views.user import IndexView, SignUpView, ProfileEditView, AlbumView
+from registration.views.user import SignUpView, ProfileEditView, AlbumView
 from registration.views.user import logout, profile, photo_upload, current_photo_delete
 from registration.views.student import StudentProfileUpdateView
 
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
-
     path('login', LoginView.as_view(template_name='login.html'), name='login'),
     path('logout', logout, name='logout'),
 

@@ -19,10 +19,6 @@ from registration.file import user_photo_storage, user_photo_remove
 # Create your views here.
 
 
-class IndexView(TemplateView):
-    template_name = 'index.html'
-
-
 class SignUpView(CreateView):
     model = User
     form_class = SignUpForm

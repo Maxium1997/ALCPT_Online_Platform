@@ -4,7 +4,21 @@
         {{ user_filter_form.content }}
         {{ user_filter_form.identity }}
         <div class="float-right mb-2">
-            <button type="submit" class="btn btn-outline-primary">Search</button>
+            <button id="search-submit-btn" type="submit" class="btn btn-outline-primary" disabled>Search</button>
         </div>
     </form>
 </div>
+<script type="text/javascript">
+    function is_empty(){
+        var filter_content = document.getElementById('id_content');
+        var search_submit_btn = document.getElementById('search-submit-btn');
+
+        if (!filter_content){
+            alert(filter_content);
+        }
+    }
+    function is_change(){
+        var search_submit_btn = document.getElementById('search-submit-btn');
+        search_submit_btn.disabled = false;
+}
+</script>
